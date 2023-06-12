@@ -1,0 +1,28 @@
+.todos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px solid teal;
+  border-radius: 10px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.delete {
+  margin-right: 5px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
+.done {
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+}
