@@ -1,12 +1,14 @@
 import { ReactNode } from "react";
 
 export type ITodoProps = {
-  todo: {
+  todos: {
     id: number;
     title: string;
     body: string;
   };
   number: number;
+  todo: objTodo;
+  setTodo: React.Dispatch<React.SetStateAction<objTodo>>;
 };
 export type objTodos = {
   id: number;
@@ -27,18 +29,23 @@ export type IHeaderInputProps = {
 };
 export type IHeaderButtonProps = {
   isDisabled?: boolean;
-  addNewTodo?: AddNewTodo;
+  onClick?: onClick;
   children: ReactNode;
   buttonStyles?: IButtonStyle;
 };
 export type IButtonStyle = {
   marginRight: string;
 };
-export type AddNewTodo = () => void;
+export type onClick = () => void;
 export type ITodosListProps = {
   todosArray: objTodos[];
+  todo: objTodo;
+  setTodo: React.Dispatch<React.SetStateAction<objTodo>>;
+  deleteTodo?: onClick;
 };
 export type IHeader = {
   todosArray: objTodos[];
+  todo: objTodo;
+  setTodo: React.Dispatch<React.SetStateAction<objTodo>>;
   setTodosArray: React.Dispatch<React.SetStateAction<objTodos[]>>;
 };

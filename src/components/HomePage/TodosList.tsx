@@ -7,7 +7,13 @@ const TodosList: FC<ITodosListProps> = (props) => {
     <div>
       <h1 style={{ textAlign: "center" }}>TODO'S LIST</h1>
       {props.todosArray.map((todo, index) => (
-        <Todo number={index + 1} todo={todo} key={todo.id} />
+        <Todo
+          number={index + 1}
+          todos={todo}
+          key={todo.id}
+          todo={props.todo}
+          setTodo={props.setTodo}
+        />
       ))}
     </div>
   );

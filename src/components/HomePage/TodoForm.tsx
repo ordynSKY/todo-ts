@@ -4,9 +4,12 @@ import HeaderButton from "../Header/HeaderButton";
 import HeaderInput from "../Header/HeaderInput";
 import styles from "../Header/Header.module.css";
 
-const TodoForm: FC<IHeader> = ({ todosArray, setTodosArray }) => {
-  const [todo, setTodo] = useState({ title: "", body: "" });
-
+const TodoForm: FC<IHeader> = ({
+  todosArray,
+  setTodosArray,
+  todo,
+  setTodo,
+}) => {
   const addNewTodo = () => {
     setTodosArray([...todosArray, { ...todo, id: Date.now() }]);
     setTodo({ title: "", body: "" });
@@ -29,7 +32,7 @@ const TodoForm: FC<IHeader> = ({ todosArray, setTodosArray }) => {
           fieldName="body"
           placeholder="Type todo's description"
         />
-        <HeaderButton isDisabled={false} addNewTodo={addNewTodo}>
+        <HeaderButton isDisabled={false} onClick={addNewTodo}>
           ADD TODO
         </HeaderButton>
       </div>

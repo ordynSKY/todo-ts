@@ -4,7 +4,7 @@ import styles from "./Header.module.css";
 
 const HeaderButton: FC<IHeaderButtonProps> = ({
   isDisabled,
-  addNewTodo,
+  onClick,
   children,
   buttonStyles,
 }) => {
@@ -13,7 +13,7 @@ const HeaderButton: FC<IHeaderButtonProps> = ({
       <button
         disabled={isDisabled}
         className={styles.button}
-        onClick={addNewTodo}
+        onClick={onClick}
         style={buttonStyles}
       >
         {children}
