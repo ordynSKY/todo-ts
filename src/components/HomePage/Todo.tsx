@@ -4,17 +4,11 @@ import HeaderButton from "../Header/HeaderButton";
 import styles from "./Todos.module.css";
 
 const Todo: FC<ITodoProps> = (props) => {
-  const [isDone, setIsDone] = useState({ backgroundColor: "transparent" });
   const { number, todo } = props;
   const { title, body } = props.todos;
   const buttonStyles = {
     marginRight: "5px",
   };
-
-  const changeBackground = () => {
-    setIsDone({ backgroundColor: "gray" });
-  };
-  console.log(isDone);
 
   return (
     <div className={styles.todos}>
@@ -26,7 +20,7 @@ const Todo: FC<ITodoProps> = (props) => {
       </div>
       <div className={styles.buttons}>
         <HeaderButton buttonStyles={buttonStyles}>Delete</HeaderButton>
-        <HeaderButton onClick={changeBackground}>Done</HeaderButton>
+        <HeaderButton>Done</HeaderButton>
       </div>
     </div>
   );
