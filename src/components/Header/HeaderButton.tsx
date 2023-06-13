@@ -2,7 +2,11 @@ import React, { FC } from "react";
 import { IHeaderButtonProps } from "../../types";
 import styles from "./Header.module.css";
 
-const HeaderButton: FC<IHeaderButtonProps> = ({ isDisabled, addNewTodo }) => {
+const HeaderButton: FC<IHeaderButtonProps> = ({
+  isDisabled,
+  addNewTodo,
+  children,
+}) => {
   return (
     <div>
       <button
@@ -10,7 +14,7 @@ const HeaderButton: FC<IHeaderButtonProps> = ({ isDisabled, addNewTodo }) => {
         className={styles.button}
         onClick={addNewTodo}
       >
-        Add TODO
+        {children}
       </button>
     </div>
   );

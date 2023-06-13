@@ -4,15 +4,19 @@ import styles from "./Header.module.css";
 
 const HeaderInput: FC<IHeaderInputProps> = ({
   inputValue,
-  setInputValue,
+  setTodo,
   placeholder,
+  todo,
+  fieldName,
 }) => {
   return (
     <div>
       <input
         type="text"
         value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
+        onChange={(event) =>
+          setTodo({ ...todo, [fieldName]: event.target.value })
+        }
         placeholder={placeholder}
         className={styles.input}
       />

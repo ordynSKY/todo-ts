@@ -7,7 +7,7 @@ const Todo: FC<ITodoProps> = (props) => {
     <div className={styles.todos}>
       <div>
         <strong>
-          {props.todo.id}. {props.todo.title}
+          {props.number}. {props.todo.title}
         </strong>
         <div>{props.todo.body}</div>
       </div>
