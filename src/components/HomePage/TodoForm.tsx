@@ -11,6 +11,7 @@ const TodoForm: FC<IHeader> = ({ todosArray, setTodosArray }) => {
     setTodosArray([...todosArray, { ...todo, id: Date.now() }]);
     setTodo({ title: "", body: "" });
   };
+
   return (
     <form action="" onClick={(e) => e.preventDefault()}>
       <div className={styles.header}>

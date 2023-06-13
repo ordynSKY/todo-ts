@@ -26,9 +26,13 @@ export type IHeaderInputProps = {
   fieldName: string;
 };
 export type IHeaderButtonProps = {
-  isDisabled: boolean;
-  addNewTodo: AddNewTodo;
+  isDisabled?: boolean;
+  addNewTodo?: AddNewTodo;
   children: ReactNode;
+  buttonStyles?: IButtonStyle;
+};
+export type IButtonStyle = {
+  marginRight: string;
 };
 export type AddNewTodo = () => void;
 export type ITodosListProps = {

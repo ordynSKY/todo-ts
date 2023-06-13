@@ -6,6 +6,7 @@ const HeaderButton: FC<IHeaderButtonProps> = ({
   isDisabled,
   addNewTodo,
   children,
+  buttonStyles,
 }) => {
   return (
     <div>
@@ -13,6 +14,7 @@ const HeaderButton: FC<IHeaderButtonProps> = ({
         disabled={isDisabled}
         className={styles.button}
         onClick={addNewTodo}
+        style={buttonStyles}
       >
         {children}
       </button>
