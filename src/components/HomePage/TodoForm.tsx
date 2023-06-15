@@ -17,6 +17,7 @@ const TodoForm: FC<IHeader> = ({
       setTodo({ title: "", body: "" });
     }
   };
+  console.log("date: ", typeof Date.now());
 
   return (
     <form action="" onSubmit={() => addNewTodo}>

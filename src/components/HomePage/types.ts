@@ -10,9 +10,11 @@ export interface ITodoProps {
   todo: IObjTodo;
   setTodo: React.Dispatch<React.SetStateAction<IObjTodo>>;
   deleteTodo: TOnClick;
+  toggleTodo: (id: number) => void;
 }
 export interface ITodosListProps {
   todosArray: IObjTodos[];
+  toggleTodo: (id: number) => void;
   todo: IObjTodo;
   setTodo: React.Dispatch<React.SetStateAction<IObjTodo>>;
   deleteTodo: (id: number) => void;

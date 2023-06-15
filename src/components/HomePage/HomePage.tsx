@@ -7,11 +7,23 @@ import TodosList from "./TodosList";
 
 const HomePage = () => {
   const [todosArray, setTodosArray] = useState<IObjTodos[]>([]);
-  const [todo, setTodo] = useState<IObjTodo>({ title: "", body: "" });
+  const [todo, setTodo] = useState<IObjTodo>({
+    title: "",
+    body: "",
+    completed: false,
+  });
   const [firstStart, setFirstStart] = useState(true);
 
   const deleteTodo = (id: number) => {
     setTodosArray(todosArray.filter((el: IObjTodos) => el.id !== id));
+  };
+
+  const toggleTodo = (id: number) => {
+    setTodosArray((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
   useEffect(() => {
@@ -42,6 +54,7 @@ const HomePage = () => {
         todo={todo}
         setTodo={setTodo}
         deleteTodo={deleteTodo}
+        toggleTodo={toggleTodo}
       />
     </>
   );

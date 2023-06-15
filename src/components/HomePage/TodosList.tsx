@@ -7,8 +7,8 @@ const TodosList: FC<ITodosListProps> = ({
   todo,
   setTodo,
   deleteTodo,
+  toggleTodo,
 }) => {
-  console.log("tod", todosArray);
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>TODO'S LIST</h1>
@@ -20,6 +20,7 @@ const TodosList: FC<ITodosListProps> = ({
           todo={onetodo}
           setTodo={setTodo}
           deleteTodo={deleteTodo}
+          toggleTodo={toggleTodo}
         />
       ))}
     </div>

@@ -7,18 +7,24 @@ const buttonStyles = {
   marginRight: "5px",
 };
 
-const Todo: FC<ITodoProps> = ({ number, todos, deleteTodo, todo }) => {
-  const [backgroundStyle, setBackgroundStyle] = useState<boolean>(false);
+const Todo: FC<ITodoProps> = ({
+  number,
+  todos,
+  deleteTodo,
+  todo,
+  toggleTodo,
+}) => {
   const { title, body } = todos;
 
-  const changeColor = () => {
-    setBackgroundStyle(!backgroundStyle);
+  const handleToggle = () => {
+    toggleTodo(todo.id);
+    console.log(todo);
   };
 
   return (
     <div
       className={styles.todos}
-      style={{ backgroundColor: backgroundStyle ? "gainsboro" : "transparent" }}
+      style={{ backgroundColor: todo.completed ? "gainsboro" : "transparent" }}
     >
       <div>
         <strong>
@@ -33,7 +39,7 @@ const Todo: FC<ITodoProps> = ({ number, todos, deleteTodo, todo }) => {
         >
           Delete
         </HeaderButton>
-        <HeaderButton onClick={changeColor}>Done</HeaderButton>
+        <HeaderButton onClick={handleToggle}>Done</HeaderButton>
       </div>
     </div>
   );
