@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { IHeaderButtonProps } from "../../types";
 import styles from "./Header.module.css";
+import { IHeaderButtonProps } from "./types";
 
 const HeaderButton: FC<IHeaderButtonProps> = ({
   isDisabled,
@@ -9,16 +9,14 @@ const HeaderButton: FC<IHeaderButtonProps> = ({
   buttonStyles,
 }) => {
   return (
-    <div>
-      <button
-        disabled={isDisabled}
-        className={styles.button}
-        onClick={onClick}
-        style={buttonStyles}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      disabled={isDisabled}
+      className={styles.button}
+      onClick={onClick}
+      style={buttonStyles}
+    >
+      {children}
+    </button>
   );
 };
 

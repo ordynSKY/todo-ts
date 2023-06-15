@@ -1,20 +1,33 @@
-import React, { useState } from "react";
-import { objTodo } from "../../types";
+import React, { useEffect, useState } from "react";
+import { getItem } from "../../localStorageService";
+import { IObjTodo, IObjTodos } from "../../types/types";
 import Header from "../Header/Header";
 import Todo from "./Todo";
 import TodosList from "./TodosList";
 
 const HomePage = () => {
-  const [todosArray, setTodosArray] = useState([
-    { id: 1, title: "Title", body: "Description" },
-    { id: 2, title: "Title", body: "Description" },
-    { id: 3, title: "Title", body: "Description" },
-  ]);
-  const [todo, setTodo] = useState({ title: "", body: "" });
+  const [todosArray, setTodosArray] = useState<IObjTodos[]>([]);
+  const [todo, setTodo] = useState<IObjTodo>({ title: "", body: "" });
+  const [firstStart, setFirstStart] = useState(true);
 
-  const deleteTodo = () => {
-    // setTodosArray(todosArray.filter(el => el.id !== todo.id))
+  const deleteTodo = (id: number) => {
+    setTodosArray(todosArray.filter((el: IObjTodos) => el.id !== id));
   };
+
+  useEffect(() => {
+    if (firstStart) {
+      setFirstStart(false);
+    } else {
+      localStorage.setItem("todos", JSON.stringify(todosArray));
+    }
+  }, [todosArray]);
+
+  useEffect(() => {
+    if (getItem("todos")) {
+      const storage = getItem("todos");
+      setTodosArray(storage);
+    }
+  }, []);
 
   return (
     <>

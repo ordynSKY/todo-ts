@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react";
-import { IHeader } from "../../types";
 import HeaderButton from "../Header/HeaderButton";
 import HeaderInput from "../Header/HeaderInput";
 import styles from "../Header/Header.module.css";
+import { IHeader } from "../Header/types";
 
 const TodoForm: FC<IHeader> = ({
   todosArray,
@@ -10,13 +10,16 @@ const TodoForm: FC<IHeader> = ({
   todo,
   setTodo,
 }) => {
-  const addNewTodo = () => {
-    setTodosArray([...todosArray, { ...todo, id: Date.now() }]);
-    setTodo({ title: "", body: "" });
+  const addNewTodo = (e: any) => {
+    e.preventDefault();
+    if (todo.body && todo.title) {
+      setTodosArray([...todosArray, { ...todo, id: Date.now() }]);
+      setTodo({ title: "", body: "" });
+    }
   };
 
   return (
-    <form action="" onClick={(e) => e.preventDefault()}>
+    <form action="" onSubmit={() => addNewTodo}>
       <div className={styles.header}>
         <HeaderInput
           todo={todo}

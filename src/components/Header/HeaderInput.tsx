@@ -1,6 +1,6 @@
 import React, { FC } from "react";
-import { IHeaderInputProps } from "../../types";
 import styles from "./Header.module.css";
+import { IHeaderInputProps } from "./types";
 
 const HeaderInput: FC<IHeaderInputProps> = ({
   inputValue,
