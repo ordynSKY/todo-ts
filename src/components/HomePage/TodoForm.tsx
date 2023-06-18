@@ -29,12 +29,12 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
         <HeaderInput
           value={title}
           placeholder="Type todo's title"
-          onChange={getValues}
+          getValues={getValues}
         />
         <HeaderInput
           value={body}
           placeholder="Type todo's description"
-          onChange={getValues}
+          getValues={getValues}
         />
         <HeaderButton isDisabled={false} onClick={addNewTodo}>
           ADD TODO

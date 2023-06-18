@@ -11,7 +11,7 @@ const TodosList: FC<ITodosListProps> = ({
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>TODO'S LIST</h1>
-      {todosArray.map((onetodo, index) => (
+      {todosArray?.map((onetodo, index) => (
         <Todo
           number={index + 1}
           key={onetodo.id}

@@ -1,4 +1,4 @@
-import { FormEvent, ReactNode } from "react";
+import { ChangeEvent, FormEvent, ReactNode } from "react";
 import { ITodo, TOnClick } from "../../types/types";
 
 export interface IHeader {
@@ -16,5 +16,5 @@ export interface IButtonStyle {
 export interface IHeaderInputProps {
   value: string;
   placeholder: string;
-  onChange: (e: HTMLInputElement) => void;
+  getValues: (e: any) => void;
 }

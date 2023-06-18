@@ -8,7 +8,7 @@ export interface ITodoProps {
   toggleTodo: (id: ITodo) => void;
 }
 export interface ITodosListProps {
-  todosArray: ITodo[];
+  todosArray: ITodo[] | null | undefined;
   toggleTodo: (id: ITodo) => void;
   todo: ITodo;
   setTodo: React.Dispatch<React.SetStateAction<ITodo>>;

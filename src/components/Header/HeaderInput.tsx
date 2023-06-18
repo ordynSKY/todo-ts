@@ -1,17 +1,18 @@
-import React, { FC } from "react";
+import { get } from "http";
+import React, { FC, FormEvent, useState } from "react";
 import styles from "./Header.module.css";
 import { IHeaderInputProps } from "./types";
 
 const HeaderInput: FC<IHeaderInputProps> = ({
   value,
   placeholder,
-  onChange,
+  getValues,
 }) => {
   return (
     <input
       type="text"
       value={value}
-      onChange={onChange}
+      onChange={(e) => getValues(e.target.value)}
       placeholder={placeholder}
       className={styles.input}
     />
