@@ -20,8 +20,7 @@ const setItem = (key: string, value: string) => {
   }
 
   try {
-    const serializedValue = JSON.stringify(value);
-    localStorage.setItem(key, serializedValue);
+    localStorage.setItem(key, value);
   } catch (error) {
     console.error("Error serializing localStorage item:", error);
   }

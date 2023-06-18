@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC } from "react";
 import HeaderButton from "../Header/HeaderButton";
 import styles from "./Todos.module.css";
 import { ITodoProps } from "./types";
@@ -7,17 +7,11 @@ const buttonStyles = {
   marginRight: "5px",
 };
 
-const Todo: FC<ITodoProps> = ({
-  number,
-  todos,
-  deleteTodo,
-  todo,
-  toggleTodo,
-}) => {
-  const { title, body } = todos;
+const Todo: FC<ITodoProps> = ({ number, deleteTodo, todo, toggleTodo }) => {
+  const { title, body } = todo;
 
   const handleToggle = () => {
-    toggleTodo(todo.id);
+    toggleTodo(todo);
     console.log(todo);
   };
 
@@ -35,7 +29,7 @@ const Todo: FC<ITodoProps> = ({
       <div className={styles.buttons}>
         <HeaderButton
           buttonStyles={buttonStyles}
-          onClick={() => deleteTodo(todos.id)}
+          onClick={() => deleteTodo(todo.id)}
         >
           Delete
         </HeaderButton>

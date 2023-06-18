@@ -1,40 +1,40 @@
-import React, { FC, useState } from "react";
+import React, { FC, FormEvent, useState } from "react";
 import HeaderButton from "../Header/HeaderButton";
 import HeaderInput from "../Header/HeaderInput";
 import styles from "../Header/Header.module.css";
 import { IHeader } from "../Header/types";
+import { ITodo } from "../../types/types";
 
-const TodoForm: FC<IHeader> = ({
-  todosArray,
-  setTodosArray,
-  todo,
-  setTodo,
-}) => {
-  const addNewTodo = (e: any) => {
+const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const addNewTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (todo.body && todo.title) {
-      setTodosArray([...todosArray, { ...todo, id: Date.now() }]);
-      setTodo({ title: "", body: "" });
-    }
+    if (!body || !title) return;
+    const newTodo = {
+      id: Date.now(),
+      title,
+      body,
+    };
+    oneNewTodo(newTodo);
+    setTitle("");
+    setBody("");
   };
-  console.log("date: ", typeof Date.now());
+
+  const getValues = () => {};
 
   return (
-    <form action="" onSubmit={() => addNewTodo}>
+    <form action="" onSubmit={addNewTodo}>
       <div className={styles.header}>
         <HeaderInput
-          todo={todo}
-          inputValue={todo.title}
-          setTodo={setTodo}
-          fieldName="title"
+          value={title}
           placeholder="Type todo's title"
+          onChange={getValues}
         />
         <HeaderInput
-          todo={todo}
-          inputValue={todo.body}
-          setTodo={setTodo}
-          fieldName="body"
+          value={body}
           placeholder="Type todo's description"
+          onChange={getValues}
         />
         <HeaderButton isDisabled={false} onClick={addNewTodo}>
           ADD TODO

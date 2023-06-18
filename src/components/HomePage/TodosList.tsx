@@ -4,7 +4,6 @@ import { ITodosListProps } from "./types";
 
 const TodosList: FC<ITodosListProps> = ({
   todosArray,
-  todo,
   setTodo,
   deleteTodo,
   toggleTodo,
@@ -15,7 +14,6 @@ const TodosList: FC<ITodosListProps> = ({
       {todosArray.map((onetodo, index) => (
         <Todo
           number={index + 1}
-          todos={onetodo}
           key={onetodo.id}
           todo={onetodo}
           setTodo={setTodo}

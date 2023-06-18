@@ -1,11 +1,8 @@
-import { ReactNode } from "react";
-import { IObjTodo, IObjTodos, TOnClick } from "../../types/types";
+import { FormEvent, ReactNode } from "react";
+import { ITodo, TOnClick } from "../../types/types";
 
 export interface IHeader {
-  todosArray: IObjTodos[];
-  todo: IObjTodo;
-  setTodo: React.Dispatch<React.SetStateAction<IObjTodo>>;
-  setTodosArray: React.Dispatch<React.SetStateAction<IObjTodos[]>>;
+  oneNewTodo: (e: ITodo) => void;
 }
 export interface IHeaderButtonProps {
   isDisabled?: boolean;
@@ -17,9 +14,7 @@ export interface IButtonStyle {
   marginRight: string;
 }
 export interface IHeaderInputProps {
-  inputValue: string;
-  setTodo: React.Dispatch<React.SetStateAction<IObjTodo>>;
+  value: string;
   placeholder: string;
-  todo: IObjTodo;
-  fieldName: string;
+  onChange: (e: HTMLInputElement) => void;
 }

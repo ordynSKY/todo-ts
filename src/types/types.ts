@@ -1,14 +1,9 @@
-export interface IObjTodos {
-  id: number;
-  title: string;
-  body: string;
-  completed?: boolean;
-}
-export interface IObjTodo {
-  title: string;
-  body: string;
-  id?: any;
-  completed?: boolean;
-}
+import { type } from "os";
 
+export interface ITodo {
+  id?: number;
+  title: string;
+  body: string;
+  completed?: boolean;
+}
 export type TOnClick = (o?: any) => void;

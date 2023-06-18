@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { getItem } from "../../localStorageService";
-import { IObjTodo, IObjTodos } from "../../types/types";
+import { useEffect, useState } from "react";
+import { getItem, setItem } from "../../localStorageService";
+import { ITodo } from "../../types/types";
 import Header from "../Header/Header";
-import Todo from "./Todo";
 import TodosList from "./TodosList";
 
 const HomePage = () => {
-  const [todosArray, setTodosArray] = useState<IObjTodos[]>([]);
-  const [todo, setTodo] = useState<IObjTodo>({
+  const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
+    null
+  );
+  // избавиться от переменной
+  const [todo, setTodo] = useState<ITodo>({
     title: "",
     body: "",
     completed: false,
@@ -15,13 +17,16 @@ const HomePage = () => {
   const [firstStart, setFirstStart] = useState(true);
 
   const deleteTodo = (id: number) => {
-    setTodosArray(todosArray.filter((el: IObjTodos) => el.id !== id));
+    // опираться на предыдущее значение в колбеке
+    setTodosArray(todosArray?.filter((el) => el.id !== id));
   };
 
-  const toggleTodo = (id: number) => {
+  const toggleTodo = (oneTodo: ITodo) => {
     setTodosArray((prevTodos) =>
-      prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      prevTodos?.map((todo) =>
+        typeof todo?.id === "number" && todo?.id === oneTodo.id
+          ? { ...todo, completed: !todo.completed }
+          : todo
       )
     );
   };
@@ -29,26 +34,23 @@ const HomePage = () => {
   useEffect(() => {
     if (firstStart) {
       setFirstStart(false);
-    } else {
-      localStorage.setItem("todos", JSON.stringify(todosArray));
+      return;
     }
-  }, [todosArray]);
+    setItem("todos", JSON.stringify(todosArray));
+  }, [todosArray, firstStart]);
 
   useEffect(() => {
-    if (getItem("todos")) {
-      const storage = getItem("todos");
-      setTodosArray(storage);
-    }
+    if (!getItem("todos")) return;
+    setTodosArray(getItem("todos"));
   }, []);
+
+  const oneNewTodo = (todo: ITodo) => {
+    setTodosArray((prev) => [...(prev || []), todo]);
+  };
 
   return (
     <>
-      <Header
-        todosArray={todosArray}
-        setTodosArray={setTodosArray}
-        todo={todo}
-        setTodo={setTodo}
-      />
+      <Header oneNewTodo={oneNewTodo} />
       <TodosList
         todosArray={todosArray}
         todo={todo}

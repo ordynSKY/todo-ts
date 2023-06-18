@@ -2,15 +2,10 @@ import React, { FC } from "react";
 import TodoForm from "../HomePage/TodoForm";
 import { IHeader } from "./types";
 
-const Header: FC<IHeader> = ({ todosArray, setTodosArray, todo, setTodo }) => {
+const Header: FC<IHeader> = ({ oneNewTodo }) => {
   return (
     <>
-      <TodoForm
-        todosArray={todosArray}
-        setTodosArray={setTodosArray}
-        todo={todo}
-        setTodo={setTodo}
-      />
+      <TodoForm oneNewTodo={oneNewTodo} />
     </>
   );
 };

@@ -1,21 +1,16 @@
-import { IObjTodo, IObjTodos, TOnClick } from "../../types/types";
+import { ITodo, TOnClick } from "../../types/types";
 
 export interface ITodoProps {
-  todos: {
-    id: number;
-    title: string;
-    body: string;
-  };
   number: number;
-  todo: IObjTodo;
-  setTodo: React.Dispatch<React.SetStateAction<IObjTodo>>;
+  todo: ITodo;
+  setTodo: React.Dispatch<React.SetStateAction<ITodo>>;
   deleteTodo: TOnClick;
-  toggleTodo: (id: number) => void;
+  toggleTodo: (id: ITodo) => void;
 }
 export interface ITodosListProps {
-  todosArray: IObjTodos[];
-  toggleTodo: (id: number) => void;
-  todo: IObjTodo;
-  setTodo: React.Dispatch<React.SetStateAction<IObjTodo>>;
+  todosArray: ITodo[];
+  toggleTodo: (id: ITodo) => void;
+  todo: ITodo;
+  setTodo: React.Dispatch<React.SetStateAction<ITodo>>;
   deleteTodo: (id: number) => void;
 }
