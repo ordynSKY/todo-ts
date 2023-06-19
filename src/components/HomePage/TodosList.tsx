@@ -1,10 +1,9 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import Todo from "./Todo";
 import { ITodosListProps } from "./types";
 
 const TodosList: FC<ITodosListProps> = ({
   todosArray,
-  setTodo,
   deleteTodo,
   toggleTodo,
 }) => {
@@ -16,7 +15,6 @@ const TodosList: FC<ITodosListProps> = ({
           number={index + 1}
           key={onetodo.id}
           todo={onetodo}
-          setTodo={setTodo}
           deleteTodo={deleteTodo}
           toggleTodo={toggleTodo}
         />

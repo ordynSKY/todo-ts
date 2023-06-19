@@ -1,5 +1,4 @@
-import { get } from "http";
-import React, { FC, FormEvent, useState } from "react";
+import React, { FC } from "react";
 import styles from "./Header.module.css";
 import { IHeaderInputProps } from "./types";
 

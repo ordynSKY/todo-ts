@@ -5,29 +5,21 @@ import Header from "../Header/Header";
 import TodosList from "./TodosList";
 
 const HomePage = () => {
-  const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
-    null
-  );
-  // избавиться от переменной
-  const [todo, setTodo] = useState<ITodo>({
-    title: "",
-    body: "",
-    completed: false,
-  });
+  const [todosArray, setTodosArray] = useState<ITodo[] | null>(null);
   const [firstStart, setFirstStart] = useState(true);
 
   const deleteTodo = (id: number) => {
-    // опираться на предыдущее значение в колбеке
-    setTodosArray(todosArray?.filter((el) => el.id !== id));
+    setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
   };
 
-  const toggleTodo = (oneTodo: ITodo) => {
-    setTodosArray((prevTodos) =>
-      prevTodos?.map((todo) =>
-        typeof todo?.id === "number" && todo?.id === oneTodo.id
-          ? { ...todo, completed: !todo.completed }
-          : todo
-      )
+  const toggleTodo = (id: number) => {
+    setTodosArray(
+      (prevTodos) =>
+        prevTodos?.map((todo) =>
+          typeof todo?.id === "number" && todo?.id === id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ) || null
     );
   };
 
@@ -37,6 +29,7 @@ const HomePage = () => {
       return;
     }
     setItem("todos", JSON.stringify(todosArray));
+    console.log("arr: ", todosArray);
   }, [todosArray, firstStart]);
 
   useEffect(() => {
@@ -53,8 +46,6 @@ const HomePage = () => {
       <Header oneNewTodo={oneNewTodo} />
       <TodosList
         todosArray={todosArray}
-        todo={todo}
-        setTodo={setTodo}
         deleteTodo={deleteTodo}
         toggleTodo={toggleTodo}
       />

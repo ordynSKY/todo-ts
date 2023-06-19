@@ -1,7 +1,5 @@
-import { type } from "os";
-
 export interface ITodo {
-  id?: number;
+  id: number;
   title: string;
   body: string;
   completed?: boolean;

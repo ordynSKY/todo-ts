@@ -10,11 +10,6 @@ const buttonStyles = {
 const Todo: FC<ITodoProps> = ({ number, deleteTodo, todo, toggleTodo }) => {
   const { title, body } = todo;
 
-  const handleToggle = () => {
-    toggleTodo(todo);
-    console.log(todo);
-  };
-
   return (
     <div
       className={styles.todos}
@@ -33,7 +28,7 @@ const Todo: FC<ITodoProps> = ({ number, deleteTodo, todo, toggleTodo }) => {
         >
           Delete
         </HeaderButton>
-        <HeaderButton onClick={handleToggle}>Done</HeaderButton>
+        <HeaderButton onClick={() => toggleTodo(todo.id)}>Done</HeaderButton>
       </div>
     </div>
   );

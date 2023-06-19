@@ -8,10 +8,11 @@ import { ITodo } from "../../types/types";
 const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
   const addNewTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!body || !title) return;
-    const newTodo = {
+    const newTodo: ITodo = {
       id: Date.now(),
       title,
       body,
@@ -21,20 +22,18 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
     setBody("");
   };
 
-  const getValues = () => {};
-
   return (
-    <form action="" onSubmit={addNewTodo}>
+    <form onSubmit={addNewTodo}>
       <div className={styles.header}>
         <HeaderInput
           value={title}
           placeholder="Type todo's title"
-          getValues={getValues}
+          getValues={(val) => setTitle(val)}
         />
         <HeaderInput
           value={body}
           placeholder="Type todo's description"
-          getValues={getValues}
+          getValues={(val) => setBody(val)}
         />
         <HeaderButton isDisabled={false} onClick={addNewTodo}>
           ADD TODO
