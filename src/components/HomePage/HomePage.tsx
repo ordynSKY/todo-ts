@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { getItem, setItem } from "../../localStorageService";
+import fetchTodos from "../../services/TodoService";
 import { ITodo } from "../../types/types";
 import Header from "../Header/Header";
 import TodosList from "./TodosList";
@@ -11,6 +13,24 @@ const HomePage = () => {
   const deleteTodo = (id: number) => {
     setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
   };
+
+  useEffect(() => {
+    const onTodos = async () => {
+      try {
+        const response = await fetchTodos();
+        localStorage.setItem("todos", JSON.stringify(response));
+        setTodosArray(response.data.todos);
+        console.log("redirect: ", response.data.todos);
+        // window.location.replace("/dashboard");
+      } catch (e: any) {
+        toast.error(`${e.response?.data?.message}`, {
+          position: "bottom-right",
+        });
+        console.log(e.response?.data?.message);
+      }
+    };
+    onTodos();
+  }, []);
 
   const toggleTodo = (id: number) => {
     setTodosArray(

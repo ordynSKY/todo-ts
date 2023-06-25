@@ -20,3 +20,25 @@
   cursor: pointer;
   height: 35px;
 }
+.navbar {
+  background-color: darkslategray;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 35px;
+  padding: 10px;
+}
+.logo {
+  font-size: 16px;
+  color: white;
+}
+nav {
+  font-size: 16px;
+  color: white;
+}
+.logoutButton {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  color: white;
+}
