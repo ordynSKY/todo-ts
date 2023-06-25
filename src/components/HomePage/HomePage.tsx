@@ -23,10 +23,8 @@ const HomePage = () => {
         console.log("redirect: ", response.data.todos);
         // window.location.replace("/dashboard");
       } catch (e: any) {
-        toast.error(`${e.response?.data?.message}`, {
-          position: "bottom-right",
-        });
         console.log(e.response?.data?.message);
+        window.location.replace("/");
       }
     };
     onTodos();
