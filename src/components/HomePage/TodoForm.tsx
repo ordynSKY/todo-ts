@@ -16,6 +16,7 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
       id: Date.now(),
       title,
       body,
+      completed: false,
     };
     oneNewTodo(newTodo);
     setTitle("");

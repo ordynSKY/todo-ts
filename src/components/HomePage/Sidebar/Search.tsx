@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { ISidebar } from "./types";
+import { ISearch } from "./types";
 
-const Search: FC<ISidebar> = ({ filterTodos }) => {
+const Search: FC<ISearch> = ({ filterTodos }) => {
   return (
     <div style={{ marginTop: 10 }}>
       <input

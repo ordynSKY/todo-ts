@@ -28,7 +28,6 @@ const HomePage = () => {
     const onTodos = async () => {
       try {
         const response = await fetchTodos();
-        // localStorage.setItem("todos", JSON.stringify(response));
         setTodosArray(response.data.todos);
       } catch (e: any) {
         console.log(e.response?.data?.message);
@@ -60,16 +59,10 @@ const HomePage = () => {
         console.log("set todos: ", response.data.todos);
       } catch (e: any) {
         console.log(e.response?.data?.message);
-        // window.location.replace("/");
       }
     };
     onSetTodos();
   }, [todosArray, firstStart]);
-
-  // useEffect(() => {
-  //   if (!getItem("todos")) return;
-  //   setTodosArray(getItem("todos"));
-  // }, []);
 
   const oneNewTodo = (todo: ITodo) => {
     setTodosArray((prev) => [...(prev || []), todo]);
@@ -78,27 +71,40 @@ const HomePage = () => {
   const filterTodos = (searchText: string) => {
     const trimmeredText = searchText.trim();
     setSearchTodo(trimmeredText);
-    console.log("step1: ", trimmeredText, todosArray);
-    if (!trimmeredText) {
-      console.log("step2: ", !trimmeredText);
+    if (!trimmeredText && completedTodo === 0) {
       return todosArray;
     }
-
-    const arr = todosArray?.filter(({ title }) => {
-      console.log(
-        "step3: ",
-        title.toLowerCase().includes(trimmeredText.toLowerCase())
-      );
-      return title.toLowerCase().includes(trimmeredText.toLowerCase());
-    });
-    console.log("result: ", searchResult, trimmeredText);
-    setSearchResult(arr);
   };
 
-  const onFilter = () => {
-    const filteredTodos = filterTodos(searchTodo);
+  useEffect(() => {
+    const arr = todosArray?.filter(({ title, completed }) => {
+      console.log("step1: ", completed, completedTodo);
+      const isCompleted =
+        completedTodo === 0
+          ? true
+          : completedTodo === 1
+          ? completed === true
+          : completed === false;
+      console.log("step2: ", isCompleted);
+      const isSearchedText = searchTodo
+        ? title.toLowerCase().includes(searchTodo.toLowerCase())
+        : true;
+      console.log("step3: ", isSearchedText);
 
-    return filteredTodos;
+      return isCompleted && isSearchedText;
+    });
+
+    setSearchResult(arr);
+  }, [completedTodo, searchTodo]);
+
+  const onCompletedTodo = (completed: number) => {
+    console.log("step4: ", completed);
+    if (completed === completedTodo) {
+      console.log("step5: ", completed === completedTodo);
+      setCompletedTodo(0);
+    } else {
+      setCompletedTodo(completed);
+    }
   };
 
   return (
@@ -117,7 +123,10 @@ const HomePage = () => {
           toggleTodo={toggleTodo}
         />
         <div style={{ position: "absolute", right: 60, top: 50 }}>
-          <Sidebar filterTodos={filterTodos} />
+          <Sidebar
+            filterTodos={filterTodos}
+            onCompletedTodo={onCompletedTodo}
+          />
         </div>
       </div>
     </>
