@@ -23,16 +23,16 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
   };
 
   return (
-    <form onSubmit={addNewTodo}>
+    <form className={styles.form} onSubmit={addNewTodo}>
       <div className={styles.header}>
         <HeaderInput
           value={title}
-          placeholder="Type todo's title"
+          placeholder="Type to do title"
           getValues={(val) => setTitle(val)}
         />
         <HeaderInput
           value={body}
-          placeholder="Type todo's description"
+          placeholder="Type to do description"
           getValues={(val) => setBody(val)}
         />
         <HeaderButton isDisabled={false} onClick={addNewTodo}>

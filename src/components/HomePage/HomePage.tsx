@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { getItem, setItem } from "../../localStorageService";
 import { fetchTodos, setTodos } from "../../services/TodoService";
 import { ITodo } from "../../types/types";
 import Header from "../Header/Header";
+import Sidebar from "./Sidebar/Sidebar";
 import TodosList from "./TodosList";
 
 const HomePage = () => {
-  const [todosArray, setTodosArray] = useState<ITodo[] | null>(null);
-  const [firstStart, setFirstStart] = useState(true);
+  const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
+    null
+  );
+
+  const [firstStart, setFirstStart] = useState<boolean>(true);
+
+  const [searchTodo, setSearchTodo] = useState<string>("");
+
+  const [searchResult, setSearchResult] = useState<ITodo[] | null | undefined>(
+    null
+  );
+
+  const [completedTodo, setCompletedTodo] = useState<number>(0);
 
   const deleteTodo = (id: number) => {
     setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
@@ -20,7 +30,6 @@ const HomePage = () => {
         const response = await fetchTodos();
         // localStorage.setItem("todos", JSON.stringify(response));
         setTodosArray(response.data.todos);
-        console.log("redirect: ", response.data.todos);
       } catch (e: any) {
         console.log(e.response?.data?.message);
         window.location.replace("/");
@@ -66,14 +75,51 @@ const HomePage = () => {
     setTodosArray((prev) => [...(prev || []), todo]);
   };
 
+  const filterTodos = (searchText: string) => {
+    const trimmeredText = searchText.trim();
+    setSearchTodo(trimmeredText);
+    console.log("step1: ", trimmeredText, todosArray);
+    if (!trimmeredText) {
+      console.log("step2: ", !trimmeredText);
+      return todosArray;
+    }
+
+    const arr = todosArray?.filter(({ title }) => {
+      console.log(
+        "step3: ",
+        title.toLowerCase().includes(trimmeredText.toLowerCase())
+      );
+      return title.toLowerCase().includes(trimmeredText.toLowerCase());
+    });
+    console.log("result: ", searchResult, trimmeredText);
+    setSearchResult(arr);
+  };
+
+  const onFilter = () => {
+    const filteredTodos = filterTodos(searchTodo);
+
+    return filteredTodos;
+  };
+
   return (
     <>
       <Header oneNewTodo={oneNewTodo} />
-      <TodosList
-        todosArray={todosArray || null}
-        deleteTodo={deleteTodo}
-        toggleTodo={toggleTodo}
-      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <TodosList
+          todosArray={searchTodo ? searchResult : todosArray || null}
+          deleteTodo={deleteTodo}
+          toggleTodo={toggleTodo}
+        />
+        <div style={{ position: "absolute", right: 60, top: 50 }}>
+          <Sidebar filterTodos={filterTodos} />
+        </div>
+      </div>
     </>
   );
 };

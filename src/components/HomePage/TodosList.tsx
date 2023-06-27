@@ -8,8 +8,8 @@ const TodosList: FC<ITodosListProps> = ({
   toggleTodo,
 }) => {
   return (
-    <div>
-      <h1 style={{ textAlign: "center" }}>TODO'S LIST</h1>
+    <div style={{ width: 800, position: "absolute", left: 100, top: 120 }}>
+      <h1 style={{ textAlign: "center" }}>TO DO LIST</h1>
       {todosArray?.map((onetodo, index) => (
         <Todo
           number={index + 1}
