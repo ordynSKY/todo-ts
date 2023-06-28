@@ -1,6 +1,6 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import { Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,3 @@
-import { ITodo } from "../../../types/types";
-
 export interface ISidebar {
   filterTodos: (e: string) => void;
   onCompletedTodo: (e: number) => void;
