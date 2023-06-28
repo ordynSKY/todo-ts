@@ -28,14 +28,12 @@ const TodosList: FC<ITodosListProps> = ({
 }) => {
   const [todo, setTodo] = useState<ITodo[] | null | undefined>(todosArray);
 
-  const set = new Set(todo);
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination) return;
 
-    const items = Array.from(set || []);
+    const items = Array.from(todo || []);
 
     const [newOrder] = items.slice(source.index, 1);
 
@@ -43,8 +41,6 @@ const TodosList: FC<ITodosListProps> = ({
 
     setTodo(items);
   };
-
-  console.log(todo, set);
 
   return (
     <div style={{ width: 800, position: "absolute", left: 100, top: 120 }}>
