@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Todo from "./Todo";
 import { ITodosListProps } from "./types";
 import {
@@ -9,38 +9,32 @@ import {
 } from "react-beautiful-dnd";
 import { ITodo } from "../../types/types";
 
-// const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
-//   padding: 10,
-//   margin: "0 50px 15px 50px",
-//   background: isDragging ? "#4a2975" : "white",
-//   color: isDragging ? "white" : "black",
-//   border: "1px solid black",
-//   fontSize: "20px",
-//   borderRadius: "5px",
-
-//   ...draggableStyle,
-// });
-
 const TodosList: FC<ITodosListProps> = ({
   todosArray,
   deleteTodo,
   toggleTodo,
 }) => {
-  const [todo, setTodo] = useState<ITodo[] | null | undefined>(todosArray);
+  const [todos, setTodos] = useState<ITodo[] | null | undefined>(todosArray);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination) return;
 
-    const items = Array.from(todo || []);
+    const items = Array.from(todos || []);
 
-    const [newOrder] = items.slice(source.index, 1);
+    const [newOrder] = items.splice(source.index, 1);
 
     items.splice(destination.index, 0, newOrder);
 
-    setTodo(items);
+    setTodos(items);
   };
+
+  useEffect(() => {
+    setTodos(todosArray);
+  }, [todosArray]);
+
+  console.log("todo", todos);
 
   return (
     <div style={{ width: 800, position: "absolute", left: 100, top: 120 }}>
@@ -53,7 +47,7 @@ const TodosList: FC<ITodosListProps> = ({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {todosArray?.map((onetodo, index) => (
+              {todos?.map((onetodo, index) => (
                 <Draggable
                   key={onetodo.id}
                   draggableId={onetodo.id.toString()}
@@ -64,10 +58,6 @@ const TodosList: FC<ITodosListProps> = ({
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      // style={getItemStyle(
-                      //   snapshot.isDragging,
-                      //   provided.draggableProps.style
-                      // )}
                     >
                       <Todo
                         number={index + 1}
