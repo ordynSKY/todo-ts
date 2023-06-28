@@ -71,9 +71,9 @@ const HomePage = () => {
   const filterTodos = (searchText: string) => {
     const trimmeredText = searchText.trim();
     setSearchTodo(trimmeredText);
-    if (!trimmeredText && completedTodo === 0) {
-      return todosArray;
-    }
+    // if (!trimmeredText && completedTodo === 0) {
+    //   return todosArray;
+    // }
   };
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const HomePage = () => {
     });
 
     setSearchResult(arr);
-  }, [completedTodo, searchTodo]);
+  }, [completedTodo, searchTodo, todosArray]);
 
   const onCompletedTodo = (completed: number) => {
     console.log("step4: ", completed);
@@ -118,7 +118,11 @@ const HomePage = () => {
         }}
       >
         <TodosList
-          todosArray={searchTodo ? searchResult : todosArray || null}
+          todosArray={
+            (searchTodo || completedTodo) !== 0
+              ? searchResult
+              : todosArray || null
+          }
           deleteTodo={deleteTodo}
           toggleTodo={toggleTodo}
         />
