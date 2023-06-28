@@ -6,8 +6,8 @@ import { IHeader } from "../Header/types";
 import { ITodo } from "../../types/types";
 
 const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [body, setBody] = useState<string>("");
 
   const addNewTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

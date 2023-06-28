@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchTodos, setTodos } from "../../services/TodoService";
 import { ITodo } from "../../types/types";
-import Header from "../Header/Header";
+import HeaderForm from "../Header/HeaderForm";
 import Sidebar from "./Sidebar/Sidebar";
 import TodosList from "./TodosList";
 import debounce from "lodash.debounce";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
@@ -21,6 +22,8 @@ const HomePage = () => {
 
   const [completedTodo, setCompletedTodo] = useState<number>(0);
 
+  const navigate = useNavigate();
+
   const deleteTodo = (id: number) => {
     setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
   };
@@ -32,7 +35,7 @@ const HomePage = () => {
         setTodosArray(response.data.todos);
       } catch (e: any) {
         console.log(e.response?.data?.message);
-        window.location.replace("/");
+        navigate("/");
       }
     };
     onTodos();
@@ -56,7 +59,7 @@ const HomePage = () => {
     }
     const onSetTodos = async () => {
       try {
-        const response = await setTodos(todosArray);
+        await setTodos(todosArray);
       } catch (e: any) {
         console.log(e.response?.data?.message);
       }
@@ -69,8 +72,7 @@ const HomePage = () => {
   };
 
   const filterTodos = (searchText: string) => {
-    const trimmeredText = searchText.trim();
-    setSearchTodo(trimmeredText);
+    setSearchTodo(searchText.trim());
   };
 
   useEffect(() => {
@@ -96,8 +98,6 @@ const HomePage = () => {
     []
   );
 
-  debouncedSearch(searchTodo);
-
   const onCompletedTodo = (completed: number) => {
     if (completed === completedTodo) {
       setCompletedTodo(0);
@@ -108,7 +108,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Header oneNewTodo={oneNewTodo} />
+      <HeaderForm oneNewTodo={oneNewTodo} />
       <div
         style={{
           display: "flex",
@@ -118,7 +118,7 @@ const HomePage = () => {
       >
         <TodosList
           todosArray={
-            (searchTodo || completedTodo) !== 0
+            searchTodo || completedTodo !== 0
               ? searchResult
               : todosArray || null
           }

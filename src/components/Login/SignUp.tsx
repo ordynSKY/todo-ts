@@ -1,20 +1,22 @@
 import { Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { registration } from "../../services/AuthService";
 import { toast } from "react-toastify";
 
 const SignUp = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [usernameDirty, setUsernameDirty] = useState(false);
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const [usernameError, setUsernameError] = useState("Username error");
-  const [emailError, setEmailError] = useState("Email error");
-  const [passwordError, setPasswordError] = useState("Password error");
-  const [formValid, setFormValid] = useState(false);
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [usernameDirty, setUsernameDirty] = useState<boolean>(false);
+  const [emailDirty, setEmailDirty] = useState<boolean>(false);
+  const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
+  const [usernameError, setUsernameError] = useState<string>("Username error");
+  const [emailError, setEmailError] = useState<string>("Email error");
+  const [passwordError, setPasswordError] = useState<string>("Password error");
+  const [formValid, setFormValid] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (usernameError || emailError || passwordError) {
@@ -83,7 +85,7 @@ const SignUp = () => {
     try {
       const response = await registration(email, username, password);
       localStorage.setItem("token", response.data.token);
-      window.location.replace("/");
+      navigate("/");
     } catch (e: any) {
       toast.error(`${e.response?.data?.message}`, {
         position: "bottom-right",

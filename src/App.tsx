@@ -12,13 +12,12 @@ import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import SignUp from "./components/Login/SignUp";
 import { ToastContainer } from "react-toastify";
+import Details from "./DetailsPage/Details";
 
 const App = () => {
   const defaultTheme = createTheme();
 
   const isLoggedIn = localStorage.getItem("token");
-
-  console.log("islogged: ", isLoggedIn);
   return (
     <div className="App" key={isLoggedIn}>
       <ThemeProvider theme={defaultTheme}>
@@ -29,6 +28,10 @@ const App = () => {
             <Route
               path="/dashboard"
               element={isLoggedIn ? <HomePage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/details"
+              element={isLoggedIn ? <Details /> : <Navigate to="/" />}
             />
           </Routes>
         </Router>

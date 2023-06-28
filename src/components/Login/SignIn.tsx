@@ -5,13 +5,13 @@ import { login } from "../../services/AuthService";
 import { toast } from "react-toastify";
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailDirty, setEmailDirty] = useState(false);
-  const [passwordDirty, setPasswordDirty] = useState(false);
-  const [emailError, setEmailError] = useState("Email error");
-  const [passwordError, setPasswordError] = useState("Password error");
-  const [formValid, setFormValid] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [emailDirty, setEmailDirty] = useState<boolean>(false);
+  const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>("Email error");
+  const [passwordError, setPasswordError] = useState<string>("Password error");
+  const [formValid, setFormValid] = useState<boolean>(false);
 
   useEffect(() => {
     if (passwordError || emailError) {
