@@ -34,8 +34,6 @@ const TodosList: FC<ITodosListProps> = ({
     setTodos(todosArray);
   }, [todosArray]);
 
-  console.log("todo", todos);
-
   return (
     <div style={{ width: 800, position: "absolute", left: 100, top: 120 }}>
       <h1 style={{ textAlign: "center" }}>TO DO LIST</h1>

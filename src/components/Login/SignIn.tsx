@@ -66,7 +66,6 @@ export default function SignIn() {
     try {
       const response = await login(email, password);
       localStorage.setItem("token", response.data.token);
-      console.log("redirect: ", response.data.token);
       window.location.replace("/dashboard");
     } catch (e: any) {
       toast.error(`${e.response?.data?.message}`, {
