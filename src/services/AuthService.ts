@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import $api from "../http";
-import { AuthResponse } from "../models/response/AuthResponse";
+import { AuthResponse } from "../types/response/AuthResponse";
 
 const login = async (
   email: string,

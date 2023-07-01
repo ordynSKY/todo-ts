@@ -1,9 +1,9 @@
-import { ITodo, TOnClick } from "../../types/types";
+import { ITodo } from "../../types/types";
 
 export interface ITodoProps {
   number: number;
   todo: ITodo;
-  deleteTodo: TOnClick;
+  deleteTodo: (id: number) => void;
   toggleTodo: (id: number) => void;
 }
 export interface ITodosListProps {

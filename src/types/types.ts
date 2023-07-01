@@ -4,4 +4,3 @@ export interface ITodo {
   body: string;
   completed: boolean;
 }
-export type TOnClick = (o?: any) => void;

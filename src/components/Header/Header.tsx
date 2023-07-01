@@ -7,7 +7,7 @@ const Header = () => {
   const navigate = useNavigate();
   const onLogout = async () => {
     try {
-      const response = await logout();
+      await logout();
       localStorage.removeItem("token");
       navigate("/");
     } catch (e: any) {

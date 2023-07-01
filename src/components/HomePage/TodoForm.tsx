@@ -36,9 +36,7 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
           placeholder="Type to do description"
           getValues={(val) => setBody(val)}
         />
-        <HeaderButton isDisabled={false} onClick={addNewTodo}>
-          ADD TODO
-        </HeaderButton>
+        <HeaderButton onClick={addNewTodo}>ADD TODO</HeaderButton>
       </div>
     </form>
   );

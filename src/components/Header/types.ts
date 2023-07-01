@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
-import { ITodo, TOnClick } from "../../types/types";
+import { FormEvent, ReactNode } from "react";
+import { ITodo } from "../../types/types";
 
 export interface IHeader {
   oneNewTodo: (e: ITodo) => void;
 }
 export interface IHeaderButtonProps {
   isDisabled?: boolean;
-  onClick?: TOnClick;
+  onClick?: (e: any) => void;
   children: ReactNode;
   buttonStyles?: IButtonStyle;
 }

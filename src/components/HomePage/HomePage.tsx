@@ -7,6 +7,31 @@ import TodosList from "./TodosList";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
 
+/*
+ 1) Избавься от этого firstStart флоу. Или сделай кнопку "Save Todos", или пользуйся функцией сохраняшкой, которая будет
+     отправлять на мервер тудухи когда надо, а не в useEffect.
+     Можешь убрать коллбэки в setTodosArray или пользваться todosArray, но не мутируй напрямую.
+
+ 2) SearchResult переменную с её useEffect поменяй на useMemo.
+
+ 3) Структурируй код как-то, у тебя методы, потом useEffect, потом методы, потом useEffect. useEffect-ы держи вместе, методы тоже и  т.п.
+    Разделяй код переносом строки, разделяй функци, разделяй что написано внутри функций по логическим блокам, чтобы это не было кашей.
+
+ 4) У тебя приложение не работает, если нет тудух в базе данных. Попробуй без них залогиниться.
+
+ 5) У тебя HomePage - страница, а лежит в компонентах, а не в pages
+
+ 6) completedTodo флоу непонятный. Какие-то цифры. Есть же слова, пользуйся словами, чтобы понятнее было.
+    Сделай какой-то completedTodoFilter и впиши туда 'completed' | 'not-completed' | 'all' или что-то подобное.
+    Будет значительно проще понять что происходит, потому что туда добавится ещё несколько фильтров, типа "Has Description"
+    и тебе придётся добавлять ещё одну цифру, а потом ещё одну, а там поди запомни какая цифра что означает.
+
+ 7) Пользуйся return в if вместо else. Потом приложения станую больше и в else появятся ещё условия, а в них ещё и ты
+    получишь ад из вложенных друг в друга if {} else if {} else. Потом появится баг и ты охренеешь искать его там.
+
+ 8) сделай errorHandler и юзай его в catch(), чтобы приложение реагировало на ошибки.
+*/
+
 const HomePage = () => {
   const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
     null
@@ -75,14 +100,18 @@ const HomePage = () => {
     setSearchTodo(searchText.trim());
   };
 
+  // ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
   useEffect(() => {
     const arr = todosArray?.filter(({ title, completed }) => {
+      // ! ебац, я не понимать ничего. Это точно надо переписать на что-то адекватное
       const isCompleted =
         completedTodo === 0
           ? true
           : completedTodo === 1
           ? completed === true
           : completed === false;
+
+      // ! тут ты на каждой итерации делаешь searchTodo.toLowerCase(), но searchTodo на всех итерациях одинаковое
       const isSearchedText = searchTodo
         ? title.toLowerCase().includes(searchTodo.toLowerCase())
         : true;
@@ -93,6 +122,7 @@ const HomePage = () => {
     setSearchResult(arr);
   }, [completedTodo, searchTodo, todosArray]);
 
+  // ! сделай руками или хук скопируй в инете и юзай. Не ставь зависимость только ради дебаунса.
   const debouncedSearch = useCallback(
     debounce((val) => filterTodos(val), 500),
     []
@@ -101,6 +131,7 @@ const HomePage = () => {
   const onCompletedTodo = (completed: number) => {
     if (completed === completedTodo) {
       setCompletedTodo(0);
+      // ! return вместо else?
     } else {
       setCompletedTodo(completed);
     }
@@ -117,6 +148,7 @@ const HomePage = () => {
         }}
       >
         <TodosList
+            // ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
           todosArray={
             searchTodo || completedTodo !== 0
               ? searchResult

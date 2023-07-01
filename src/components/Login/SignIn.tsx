@@ -4,6 +4,22 @@ import { Link } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import { toast } from "react-toastify";
 
+/*
+ 1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
+    типа "This field is required" и "Not valid email".
+    Убери переменные emailDirty, passwordDirty, formValid
+    Если хочешь валидировать когда юзер пишет - валидируй на onChange
+    Если хочешь валидировать когда юзер убрал фокус из инпута - валидируй на onBlur
+    Если хочешь при сабмите - валидируй на onSubmit.
+    Для этого не нужны emailDirty, passwordDirty
+    formValid стейт не нужен, потому что у тебя formValid === false, когда в каком-то из полей есть ошибка.
+    Пусть ошибки сначала будут пустыми строками, если emailError === пустая строка, то ошибки нет, если там есть текст, то ошибка есть.
+    formValid = emailError || passwordError получится.
+    Ты избавишься от переменных, от ненужных условий и получишь гибкую простую систему валидации и отображения ошибок.
+    В SignUp те же советы
+
+  2) Валидация одинаковая на регистрации и логине. Вынеси валидацию в util какую-то в src, и просто используй фкнцию
+*/
 export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -14,6 +30,7 @@ export default function SignIn() {
   const [formValid, setFormValid] = useState<boolean>(false);
 
   useEffect(() => {
+    // ! setFormValid(!(passwordError || emailError));
     if (passwordError || emailError) {
       setFormValid(false);
     } else {
@@ -23,6 +40,7 @@ export default function SignIn() {
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    // ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
     const res =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -35,6 +53,7 @@ export default function SignIn() {
 
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+    // ! то о чём я писал в HomePage, я сейчас тебе накину ещё 5 условий по валидации пароля и ты тут сделаешь супервложенность if {} else {}
     if (e.target.value.length < 3 || e.target.value.length > 8) {
       setPasswordError("more whan 3 and less whan 8 ");
       if (!e.target.value) {
@@ -46,6 +65,8 @@ export default function SignIn() {
   };
 
   const blurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // ! не делай setEmailDirty, а валидируй имейл. Зачем этот промежуточный шаг? Сделай функцию, которая примет имейл, отвалидирует и вернёт или текст ошибки, или null, например.
+    // ! или вообще одну функцию, которая будет валидировать всё, просо закинул в неё значение и что валидируем
     switch (e.target.name) {
       case "email":
         setEmailDirty(true);
@@ -62,10 +83,12 @@ export default function SignIn() {
     email: string,
     password: string
   ) => {
+    // ! ставь переносы строк логические, чтобы не было сплошняка. Сложно читать будет большие функции.
     event.preventDefault();
     try {
       const response = await login(email, password);
       localStorage.setItem("token", response.data.token);
+      console.log("redirect: ", response.data.token);
       window.location.replace("/dashboard");
     } catch (e: any) {
       toast.error(`${e.response?.data?.message}`, {
