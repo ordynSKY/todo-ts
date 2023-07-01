@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import { toast } from "react-toastify";
+import { regex } from "../../authValidationUtils/regexConfig";
 
 /*
  1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
@@ -41,8 +42,7 @@ export default function SignIn() {
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     // ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
-    const res =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const res = regex;
 
     if (!res.test(String(e.target.value).toLowerCase())) {
       setEmailError("Type Email");
@@ -84,16 +84,20 @@ export default function SignIn() {
     password: string
   ) => {
     // ! ставь переносы строк логические, чтобы не было сплошняка. Сложно читать будет большие функции.
+
     event.preventDefault();
+
     try {
       const response = await login(email, password);
+
       localStorage.setItem("token", response.data.token);
-      console.log("redirect: ", response.data.token);
+
       window.location.replace("/dashboard");
     } catch (e: any) {
       toast.error(`${e.response?.data?.message}`, {
         position: "bottom-right",
       });
+
       console.log(e.response?.data?.message);
     }
   };

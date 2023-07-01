@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
     Будет значительно проще понять что происходит, потому что туда добавится ещё несколько фильтров, типа "Has Description"
     и тебе придётся добавлять ещё одну цифру, а потом ещё одну, а там поди запомни какая цифра что означает.
 
- 7) Пользуйся return в if вместо else. Потом приложения станую больше и в else появятся ещё условия, а в них ещё и ты
+ ВЫПОЛНЕНО - 7) Пользуйся return в if вместо else. Потом приложения станую больше и в else появятся ещё условия, а в них ещё и ты
     получишь ад из вложенных друг в друга if {} else if {} else. Потом появится баг и ты охренеешь искать его там.
 
  8) сделай errorHandler и юзай его в catch(), чтобы приложение реагировало на ошибки.
@@ -87,10 +87,9 @@ const HomePage = () => {
   const onCompletedTodo = (completed: number) => {
     if (completed === completedTodo) {
       setCompletedTodo(0);
-      // ! return вместо else?
-    } else {
-      setCompletedTodo(completed);
+      // ВЫПОЛНЕНО - ! return вместо else?
     }
+    return setCompletedTodo(completed);
   };
 
   //useEffects
