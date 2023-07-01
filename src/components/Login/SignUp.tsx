@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registration } from "../../services/AuthService";
 import { toast } from "react-toastify";
-import { regex } from "../../authValidationUtils/regexConfig";
+import { regex } from "../../utils/authValidationUtils/regexConfig";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
@@ -40,7 +40,7 @@ const SignUp = () => {
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    // ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
+    // ВЫПОЛНЕНО - ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
     const res = regex;
 
     if (!res.test(String(e.target.value).toLowerCase())) {

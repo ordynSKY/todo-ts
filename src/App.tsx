@@ -13,11 +13,14 @@ import { ThemeProvider } from "@emotion/react";
 import SignUp from "./components/Login/SignUp";
 import { ToastContainer } from "react-toastify";
 import Details from "./pages/DetailsPage/Details";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import { getItem } from "./utils/localStorageService";
 
 const App = () => {
   const defaultTheme = createTheme();
 
-  const isLoggedIn = localStorage.getItem("token");
+  const isLoggedIn = getItem("token");
+
   return (
     <div className="App" key={isLoggedIn}>
       <ThemeProvider theme={defaultTheme}>
@@ -25,14 +28,20 @@ const App = () => {
           <Routes>
             <Route path="/" element={<SignIn />} />
             <Route path="/registration" element={<SignUp />} />
-            <Route
+            <Route element={<ProtectedRoute />}>
+              <Route element={<HomePage />} path="/dashboard" />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Details />} path="/details" />
+            </Route>
+            {/* <Route
               path="/dashboard"
               element={isLoggedIn ? <HomePage /> : <Navigate to="/" />}
             />
             <Route
               path="/details"
               element={isLoggedIn ? <Details /> : <Navigate to="/" />}
-            />
+            /> */}
           </Routes>
         </Router>
       </ThemeProvider>

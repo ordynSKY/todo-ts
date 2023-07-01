@@ -6,7 +6,7 @@ const getItem = (key: string) => {
   const item = localStorage.getItem(key);
   if (item) {
     try {
-      return JSON.parse(item);
+      return item;
     } catch (error) {
       console.error("Error parsing localStorage item:", error);
     }

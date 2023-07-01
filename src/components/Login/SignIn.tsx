@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import { toast } from "react-toastify";
-import { regex } from "../../authValidationUtils/regexConfig";
+import { regex } from "../../utils/authValidationUtils/regexConfig";
 
 /*
  1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
@@ -41,7 +41,7 @@ export default function SignIn() {
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
-    // ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
+    // ВЫПОЛНЕНО - ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
     const res = regex;
 
     if (!res.test(String(e.target.value).toLowerCase())) {
