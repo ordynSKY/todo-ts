@@ -12,12 +12,12 @@ import { useNavigate } from "react-router-dom";
      отправлять на мервер тудухи когда надо, а не в useEffect.
      Можешь убрать коллбэки в setTodosArray или пользваться todosArray, но не мутируй напрямую.
 
- 2) SearchResult переменную с её useEffect поменяй на useMemo.
+ ВЫПОЛНЕНО - 2) SearchResult переменную с её useEffect поменяй на useMemo.
 
  ВЫПОЛНЕНО - 3) Структурируй код как-то, у тебя методы, потом useEffect, потом методы, потом useEffect. useEffect-ы держи вместе, методы тоже и  т.п.
     Разделяй код переносом строки, разделяй функци, разделяй что написано внутри функций по логическим блокам, чтобы это не было кашей.
 
- 4) У тебя приложение не работает, если нет тудух в базе данных. Попробуй без них залогиниться.
+ ВЫПОЛНЕНО - 4) У тебя приложение не работает, если нет тудух в базе данных. Попробуй без них залогиниться.
 
  ВЫПОЛНЕНО - 5) У тебя HomePage - страница, а лежит в компонентах, а не в pages
 
@@ -39,13 +39,7 @@ const HomePage = () => {
     null
   );
 
-  // const [firstStart, setFirstStart] = useState<boolean>(true);
-
   const [searchTodo, setSearchTodo] = useState<string>("");
-
-  // const [searchResult, setSearchResult] = useState<ITodo[] | null | undefined>(
-  //   null
-  // );
 
   const [completedTodo, setCompletedTodo] = useState<string>("all");
 
@@ -102,7 +96,6 @@ const HomePage = () => {
         setTodosArray(response.data.todos);
       } catch (e: any) {
         console.log(e.response?.data?.message);
-        navigate("/");
       }
     };
     onTodos();
@@ -110,7 +103,6 @@ const HomePage = () => {
 
   useEffect(() => {
     if (typeof todosArray === null) {
-      // setFirstStart(false);
       return;
     }
     const onSetTodos = async () => {
@@ -124,7 +116,6 @@ const HomePage = () => {
   }, [todosArray]);
 
   // ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
-  useEffect(() => {}, []);
 
   const searchResult = useMemo(() => {
     return todosArray?.filter(({ title, completed }) => {
@@ -144,8 +135,6 @@ const HomePage = () => {
 
       return isCompleted && isSearchedText;
     });
-
-    // return arr;
   }, [completedTodo, searchTodo, todosArray]);
 
   return (
@@ -160,11 +149,7 @@ const HomePage = () => {
       >
         <TodosList
           // ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
-          todosArray={
-            searchTodo || completedTodo !== "all"
-              ? searchResult
-              : todosArray || null
-          }
+          todosArray={searchResult || []}
           deleteTodo={deleteTodo}
           toggleTodo={toggleTodo}
         />
