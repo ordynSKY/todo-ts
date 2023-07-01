@@ -1,6 +1,6 @@
 export interface ISidebar {
   filterTodos: (e: string) => void;
-  onCompletedTodo: (e: number) => void;
+  onCompletedTodo: (e: string) => void;
 }
 
 export interface ISearch {

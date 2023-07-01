@@ -8,7 +8,7 @@ const Sidebar: FC<ISidebar> = ({ filterTodos, onCompletedTodo }) => {
       <h1>SIBEDAR</h1>
       <Search filterTodos={filterTodos} />
       <button
-        onClick={() => onCompletedTodo(1)}
+        onClick={() => onCompletedTodo("completed")}
         style={{
           marginTop: 10,
           marginRight: 25,
@@ -23,7 +23,7 @@ const Sidebar: FC<ISidebar> = ({ filterTodos, onCompletedTodo }) => {
         Completed
       </button>
       <button
-        onClick={() => onCompletedTodo(2)}
+        onClick={() => onCompletedTodo("notCompleted")}
         style={{
           padding: 5,
           border: "1px solid black",

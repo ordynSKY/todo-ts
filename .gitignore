@@ -25,4 +25,4 @@ yarn-error.log*
 /typed-auth-arch
 /.vscode
 .env
-.typed-auth-arch.postman_collection.json
+typed-auth-arch.postman_collection.json

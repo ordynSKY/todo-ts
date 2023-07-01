@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
  ВЫПОЛНЕНО - 5) У тебя HomePage - страница, а лежит в компонентах, а не в pages
 
- 6) completedTodo флоу непонятный. Какие-то цифры. Есть же слова, пользуйся словами, чтобы понятнее было.
+ ВЫПОЛНЕНО - 6) completedTodo флоу непонятный. Какие-то цифры. Есть же слова, пользуйся словами, чтобы понятнее было.
     Сделай какой-то completedTodoFilter и впиши туда 'completed' | 'not-completed' | 'all' или что-то подобное.
     Будет значительно проще понять что происходит, потому что туда добавится ещё несколько фильтров, типа "Has Description"
     и тебе придётся добавлять ещё одну цифру, а потом ещё одну, а там поди запомни какая цифра что означает.
@@ -39,7 +39,7 @@ const HomePage = () => {
     null
   );
 
-  const [firstStart, setFirstStart] = useState<boolean>(true);
+  // const [firstStart, setFirstStart] = useState<boolean>(true);
 
   const [searchTodo, setSearchTodo] = useState<string>("");
 
@@ -47,7 +47,7 @@ const HomePage = () => {
     null
   );
 
-  const [completedTodo, setCompletedTodo] = useState<number>(0);
+  const [completedTodo, setCompletedTodo] = useState<string>("all");
 
   //getting useNavigate()
 
@@ -84,12 +84,13 @@ const HomePage = () => {
     []
   );
 
-  const onCompletedTodo = (completed: number) => {
+  const onCompletedTodo = (completed: string) => {
     if (completed === completedTodo) {
-      setCompletedTodo(0);
+      setCompletedTodo("all");
+      return;
       // ВЫПОЛНЕНО - ! return вместо else?
     }
-    return setCompletedTodo(completed);
+    setCompletedTodo(completed);
   };
 
   //useEffects
@@ -108,8 +109,8 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    if (firstStart || typeof todosArray === null) {
-      setFirstStart(false);
+    if (typeof todosArray === null) {
+      // setFirstStart(false);
       return;
     }
     const onSetTodos = async () => {
@@ -120,16 +121,16 @@ const HomePage = () => {
       }
     };
     onSetTodos();
-  }, [todosArray, firstStart]);
+  }, [todosArray]);
 
   // ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
   useEffect(() => {
     const arr = todosArray?.filter(({ title, completed }) => {
       // ! ебац, я не понимать ничего. Это точно надо переписать на что-то адекватное
       const isCompleted =
-        completedTodo === 0
+        completedTodo === "all"
           ? true
-          : completedTodo === 1
+          : completedTodo === "completed"
           ? completed === true
           : completed === false;
 
@@ -157,7 +158,7 @@ const HomePage = () => {
         <TodosList
           // ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
           todosArray={
-            searchTodo || completedTodo !== 0
+            searchTodo || completedTodo !== "all"
               ? searchResult
               : todosArray || null
           }
