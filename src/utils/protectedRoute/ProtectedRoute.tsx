@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from "react-router-dom";
-import { getItem } from "./localStorageService";
+import { getItem } from "../localStorageUtils/localStorageService";
 
 const ProtectedRoute = () => {
   const auth = getItem("token");

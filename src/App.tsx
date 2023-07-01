@@ -13,8 +13,8 @@ import { ThemeProvider } from "@emotion/react";
 import SignUp from "./components/Login/SignUp";
 import { ToastContainer } from "react-toastify";
 import Details from "./pages/DetailsPage/Details";
-import ProtectedRoute from "./utils/ProtectedRoute";
-import { getItem } from "./utils/localStorageService";
+import ProtectedRoute from "./utils/protectedRoute/ProtectedRoute";
+import { getItem } from "./utils/localStorageUtils/localStorageService";
 
 const App = () => {
   const defaultTheme = createTheme();
