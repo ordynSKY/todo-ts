@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../components/Header/Header";
-import styles from "../components/HomePage/Todos.module.css";
+import Header from "../../components/Header/Header";
+import styles from "../../components/TodoComponents/Todos.module.css";
 
 /*
  1) скопируй ссылку, открой новую вкладку и вставь. Приложение упадёт.

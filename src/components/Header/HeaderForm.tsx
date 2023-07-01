@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import TodoForm from "../HomePage/TodoForm";
+import TodoForm from "../TodoComponents/TodoForm";
 import Header from "./Header";
 import { IHeader } from "./types";
 

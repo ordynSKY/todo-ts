@@ -1,6 +1,6 @@
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
-import HomePage from "./components/HomePage/HomePage";
+import HomePage from "./pages/HomePage/HomePage";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,7 +12,7 @@ import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import SignUp from "./components/Login/SignUp";
 import { ToastContainer } from "react-toastify";
-import Details from "./DetailsPage/Details";
+import Details from "./pages/DetailsPage/Details";
 
 const App = () => {
   const defaultTheme = createTheme();

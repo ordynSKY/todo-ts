@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchTodos, setTodos } from "../../services/TodoService";
 import { ITodo } from "../../types/types";
-import HeaderForm from "../Header/HeaderForm";
-import Sidebar from "./Sidebar/Sidebar";
-import TodosList from "./TodosList";
+import HeaderForm from "../../components/Header/HeaderForm";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import TodosList from "../../components/TodoComponents/TodosList";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
 
@@ -14,12 +14,12 @@ import { useNavigate } from "react-router-dom";
 
  2) SearchResult переменную с её useEffect поменяй на useMemo.
 
- 3) Структурируй код как-то, у тебя методы, потом useEffect, потом методы, потом useEffect. useEffect-ы держи вместе, методы тоже и  т.п.
+ ВЫПОЛНЕНО - 3) Структурируй код как-то, у тебя методы, потом useEffect, потом методы, потом useEffect. useEffect-ы держи вместе, методы тоже и  т.п.
     Разделяй код переносом строки, разделяй функци, разделяй что написано внутри функций по логическим блокам, чтобы это не было кашей.
 
  4) У тебя приложение не работает, если нет тудух в базе данных. Попробуй без них залогиниться.
 
- 5) У тебя HomePage - страница, а лежит в компонентах, а не в pages
+ ВЫПОЛНЕНО - 5) У тебя HomePage - страница, а лежит в компонентах, а не в pages
 
  6) completedTodo флоу непонятный. Какие-то цифры. Есть же слова, пользуйся словами, чтобы понятнее было.
     Сделай какой-то completedTodoFilter и впиши туда 'completed' | 'not-completed' | 'all' или что-то подобное.
@@ -33,6 +33,8 @@ import { useNavigate } from "react-router-dom";
 */
 
 const HomePage = () => {
+  //states
+
   const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
     null
   );
@@ -47,11 +49,51 @@ const HomePage = () => {
 
   const [completedTodo, setCompletedTodo] = useState<number>(0);
 
+  //getting useNavigate()
+
   const navigate = useNavigate();
+
+  //functions
 
   const deleteTodo = (id: number) => {
     setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
   };
+
+  const toggleTodo = (id: number) => {
+    setTodosArray(
+      (prevTodos) =>
+        prevTodos?.map((todo) =>
+          typeof todo?.id === "number" && todo?.id === id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        ) || null
+    );
+  };
+
+  const oneNewTodo = (todo: ITodo) => {
+    setTodosArray((prev) => [...(prev || []), todo]);
+  };
+
+  const filterTodos = (searchText: string) => {
+    setSearchTodo(searchText.trim());
+  };
+
+  // ! сделай руками или хук скопируй в инете и юзай. Не ставь зависимость только ради дебаунса.
+  const debouncedSearch = useCallback(
+    debounce((val) => filterTodos(val), 500),
+    []
+  );
+
+  const onCompletedTodo = (completed: number) => {
+    if (completed === completedTodo) {
+      setCompletedTodo(0);
+      // ! return вместо else?
+    } else {
+      setCompletedTodo(completed);
+    }
+  };
+
+  //useEffects
 
   useEffect(() => {
     const onTodos = async () => {
@@ -65,17 +107,6 @@ const HomePage = () => {
     };
     onTodos();
   }, []);
-
-  const toggleTodo = (id: number) => {
-    setTodosArray(
-      (prevTodos) =>
-        prevTodos?.map((todo) =>
-          typeof todo?.id === "number" && todo?.id === id
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        ) || null
-    );
-  };
 
   useEffect(() => {
     if (firstStart || typeof todosArray === null) {
@@ -91,14 +122,6 @@ const HomePage = () => {
     };
     onSetTodos();
   }, [todosArray, firstStart]);
-
-  const oneNewTodo = (todo: ITodo) => {
-    setTodosArray((prev) => [...(prev || []), todo]);
-  };
-
-  const filterTodos = (searchText: string) => {
-    setSearchTodo(searchText.trim());
-  };
 
   // ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
   useEffect(() => {
@@ -122,21 +145,6 @@ const HomePage = () => {
     setSearchResult(arr);
   }, [completedTodo, searchTodo, todosArray]);
 
-  // ! сделай руками или хук скопируй в инете и юзай. Не ставь зависимость только ради дебаунса.
-  const debouncedSearch = useCallback(
-    debounce((val) => filterTodos(val), 500),
-    []
-  );
-
-  const onCompletedTodo = (completed: number) => {
-    if (completed === completedTodo) {
-      setCompletedTodo(0);
-      // ! return вместо else?
-    } else {
-      setCompletedTodo(completed);
-    }
-  };
-
   return (
     <>
       <HeaderForm oneNewTodo={oneNewTodo} />
@@ -148,7 +156,7 @@ const HomePage = () => {
         }}
       >
         <TodosList
-            // ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
+          // ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
           todosArray={
             searchTodo || completedTodo !== 0
               ? searchResult
