@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchTodos, setTodos } from "../../services/TodoService";
 import { ITodo } from "../../types/types";
 import HeaderForm from "../../components/Header/HeaderForm";
@@ -43,9 +43,9 @@ const HomePage = () => {
 
   const [searchTodo, setSearchTodo] = useState<string>("");
 
-  const [searchResult, setSearchResult] = useState<ITodo[] | null | undefined>(
-    null
-  );
+  // const [searchResult, setSearchResult] = useState<ITodo[] | null | undefined>(
+  //   null
+  // );
 
   const [completedTodo, setCompletedTodo] = useState<string>("all");
 
@@ -124,9 +124,12 @@ const HomePage = () => {
   }, [todosArray]);
 
   // ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
-  useEffect(() => {
-    const arr = todosArray?.filter(({ title, completed }) => {
+  useEffect(() => {}, []);
+
+  const searchResult = useMemo(() => {
+    return todosArray?.filter(({ title, completed }) => {
       // ! ебац, я не понимать ничего. Это точно надо переписать на что-то адекватное
+      const searchTolowerCase = searchTodo.toLowerCase();
       const isCompleted =
         completedTodo === "all"
           ? true
@@ -136,13 +139,13 @@ const HomePage = () => {
 
       // ! тут ты на каждой итерации делаешь searchTodo.toLowerCase(), но searchTodo на всех итерациях одинаковое
       const isSearchedText = searchTodo
-        ? title.toLowerCase().includes(searchTodo.toLowerCase())
+        ? title.toLowerCase().includes(searchTolowerCase)
         : true;
 
       return isCompleted && isSearchedText;
     });
 
-    setSearchResult(arr);
+    // return arr;
   }, [completedTodo, searchTodo, todosArray]);
 
   return (
