@@ -1,10 +1,12 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import styles from "../../components/TodoComponents/Todos.module.css";
+import { fetchTodos } from "../../services/TodoService";
+import { ITodo } from "../../types/types";
 
 /*
- 1) скопируй ссылку, открой новую вкладку и вставь. Приложение упадёт.
+ ВЫПОЛНЕНО - 1) скопируй ссылку, открой новую вкладку и вставь. Приложение упадёт.
     У тебя в url тут должен быть айдишник тудухи, которую ты смотришь, чтобы ты мог скопировать ссылку и отправить другу,
     ведь в боевом проекте тут будет не туду, а товар.
     Ты заходишь на это страницу и запрашиваешь инфу о конкретном товаре.
@@ -13,10 +15,28 @@ import styles from "../../components/TodoComponents/Todos.module.css";
     Если ты сюда зашёл и массива нет, то его надо запросить, посмотреть в params и по id из params получить инфу о тудухе.
 */
 const Details = () => {
-  const location = useLocation();
+  const [todo, setTodo] = useState<ITodo | null>(null);
+
   const navigate = useNavigate();
 
-  const { id, title, body, completed } = location.state;
+  const { id } = useParams();
+
+  useEffect(() => {
+    const onTodos = async () => {
+      try {
+        const todoId = Number(id);
+        const response = await fetchTodos();
+        setTodo(
+          response.data.todos?.filter((todo: ITodo) => todo.id === todoId)[0]
+        );
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
+    onTodos();
+  }, [id]);
+
+  console.log(todo?.title);
 
   return (
     <div>
@@ -40,11 +60,12 @@ const Details = () => {
           <div>
             To do ID: <strong>{id}</strong>
             <br />
-            Todo title: <strong>{title}</strong>
+            Todo title: <strong>{todo?.title}</strong>
             <br />
-            Todo description: <strong>{body}</strong>
+            Todo description: <strong>{todo?.body}</strong>
             <br />
-            Completed: <strong>{completed.toString()}</strong>
+            Completed:{" "}
+            <strong>{todo?.completed ? "Completed" : "Not completed"}</strong>
           </div>
         </div>
       </div>

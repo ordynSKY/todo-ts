@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import TodosList from "../../components/TodoComponents/TodosList";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 /*
  ВЫПОЛНЕНО - 1) Избавься от этого firstStart флоу. Или сделай кнопку "Save Todos", или пользуйся функцией сохраняшкой, которая будет
@@ -130,7 +131,10 @@ const HomePage = () => {
     const onSetTodos = async () => {
       try {
         await setTodos(todosArray);
-      } catch (e: any) {}
+        toast.success("Todos successfully saved", { position: "bottom-right" });
+      } catch (e: any) {
+        console.log(e);
+      }
     };
     onSetTodos();
   };

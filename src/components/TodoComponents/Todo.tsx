@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HeaderButton from "../Header/HeaderButton";
 import styles from "./Todos.module.css";
 import { ITodoProps } from "./types";
@@ -37,9 +37,11 @@ const Todo: FC<ITodoProps> = ({ number, deleteTodo, todo, toggleTodo }) => {
         >
           Done
         </HeaderButton>
-        <HeaderButton onClick={() => navigate("/details", { state: todo })}>
-          Details
-        </HeaderButton>
+        <Link to={`/details/${id}`}>
+          <HeaderButton onClick={() => navigate("/details", { state: todo })}>
+            Details
+          </HeaderButton>
+        </Link>
       </div>
     </div>
   );

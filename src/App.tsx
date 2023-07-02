@@ -32,16 +32,9 @@ const App = () => {
               <Route element={<HomePage />} path="/dashboard" />
             </Route>
             <Route element={<ProtectedRoute />}>
-              <Route element={<Details />} path="/details" />
+              {/* <Route element={<Details />} path="/details" /> */}
+              <Route element={<Details />} path="/details/:id" />
             </Route>
-            {/* <Route
-              path="/dashboard"
-              element={isLoggedIn ? <HomePage /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/details"
-              element={isLoggedIn ? <Details /> : <Navigate to="/" />}
-            /> */}
           </Routes>
         </Router>
       </ThemeProvider>
