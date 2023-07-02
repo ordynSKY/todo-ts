@@ -27,18 +27,12 @@ export default function SignIn() {
   const [password, setPassword] = useState<string>("");
   const [emailDirty, setEmailDirty] = useState<boolean>(false);
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string>("Email error");
-  const [passwordError, setPasswordError] = useState<string>("Password error");
-  const [formValid, setFormValid] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>("Email is required");
+  const [passwordError, setPasswordError] = useState<string>(
+    "Password is required"
+  );
 
-  useEffect(() => {
-    // ! setFormValid(!(passwordError || emailError));
-    if (passwordError || emailError) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [passwordError, emailError]);
+  const formValid = emailError || passwordError;
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -46,7 +40,7 @@ export default function SignIn() {
     const res = regex;
 
     if (!res.test(String(e.target.value).toLowerCase())) {
-      setEmailError("Type Email");
+      setEmailError("Please enter a valid Email");
     } else {
       setEmailError("");
     }
@@ -54,11 +48,13 @@ export default function SignIn() {
 
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+
     // ! то о чём я писал в HomePage, я сейчас тебе накину ещё 5 условий по валидации пароля и ты тут сделаешь супервложенность if {} else {}
     if (e.target.value.length < 3 || e.target.value.length > 8) {
-      setPasswordError("more whan 3 and less whan 8 ");
+      setPasswordError("Please type more whan 3 and less whan 8 symbols");
+
       if (!e.target.value) {
-        setPasswordError("Empty password");
+        setPasswordError("Password is required");
       }
     } else {
       setPasswordError("");
@@ -140,7 +136,7 @@ export default function SignIn() {
           style={{ marginTop: 10, marginBottom: 10 }}
         />
         <button
-          disabled={!formValid}
+          disabled={!!formValid}
           style={{ marginTop: 10, marginBottom: 10 }}
         >
           Login

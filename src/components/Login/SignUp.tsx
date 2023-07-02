@@ -13,27 +13,24 @@ const SignUp = () => {
   const [usernameDirty, setUsernameDirty] = useState<boolean>(false);
   const [emailDirty, setEmailDirty] = useState<boolean>(false);
   const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
-  const [usernameError, setUsernameError] = useState<string>("Username error");
-  const [emailError, setEmailError] = useState<string>("Email error");
-  const [passwordError, setPasswordError] = useState<string>("Password error");
-  const [formValid, setFormValid] = useState<boolean>(false);
+  const [usernameError, setUsernameError] = useState<string>(
+    "Username is required"
+  );
+  const [emailError, setEmailError] = useState<string>("Email is required");
+  const [passwordError, setPasswordError] = useState<string>(
+    "Password is required"
+  );
+
+  const formValid = emailError || passwordError || usernameError;
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (usernameError || emailError || passwordError) {
-      setFormValid(false);
-    } else {
-      setFormValid(true);
-    }
-  }, [usernameError, emailError, passwordError]);
 
   const usernameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
     const res = /^[a-zA-Z\-]+$/.exec(e.target.value);
     const valid = !!res;
     if (!valid) {
-      setUsernameError("Type Username");
+      setUsernameError("Please enter a valid Username");
     } else {
       setUsernameError("");
     }
@@ -45,7 +42,7 @@ const SignUp = () => {
     const res = regex;
 
     if (!res.test(String(e.target.value).toLowerCase())) {
-      setEmailError("Type Email");
+      setEmailError("Please enter a valid Email");
     } else {
       setEmailError("");
     }
@@ -54,9 +51,9 @@ const SignUp = () => {
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 8) {
-      setPasswordError("more whan 3 and less whan 8 ");
+      setPasswordError("Please type more whan 3 and less whan 8 symbols");
       if (!e.target.value) {
-        setPasswordError("Empty password");
+        setPasswordError("Password is required");
       }
     } else {
       setPasswordError("");
@@ -148,7 +145,7 @@ const SignUp = () => {
           style={{ marginTop: 10, marginBottom: 10 }}
         />
         <button
-          disabled={!formValid}
+          disabled={!!formValid}
           style={{ marginTop: 10, marginBottom: 10 }}
         >
           Register
