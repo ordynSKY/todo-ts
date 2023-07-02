@@ -11,15 +11,20 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
 
   const addNewTodo = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!body || !title) return;
+
     const newTodo: ITodo = {
       id: Date.now(),
       title,
       body,
       completed: false,
     };
+
     oneNewTodo(newTodo);
+
     setTitle("");
+
     setBody("");
   };
 

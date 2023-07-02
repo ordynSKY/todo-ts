@@ -3,6 +3,7 @@ import { getItem } from "../localStorageUtils/localStorageService";
 
 const ProtectedRoute = () => {
   const auth = getItem("token");
+
   return auth ? <Outlet /> : <Navigate to="/" />;
 };
 

@@ -82,9 +82,11 @@ const HomePage = () => {
   const onCompletedTodo = (completed: string) => {
     if (completed === completedTodo) {
       setCompletedTodo("all");
+
       return;
       // ВЫПОЛНЕНО - ! return вместо else?
     }
+
     setCompletedTodo(completed);
   };
 
@@ -94,6 +96,7 @@ const HomePage = () => {
     const onTodos = async () => {
       try {
         const response = await fetchTodos();
+
         setTodosArray(response.data.todos);
       } catch (e: any) {
         console.log(e);
@@ -108,6 +111,7 @@ const HomePage = () => {
     return todosArray?.filter(({ title, completed }) => {
       //ВЫПОЛНЕНО - ! ебац, я не понимать ничего. Это точно надо переписать на что-то адекватное
       const searchTolowerCase = searchTodo.toLowerCase();
+
       const isCompleted =
         completedTodo === "all"
           ? true
@@ -131,6 +135,7 @@ const HomePage = () => {
     const onSetTodos = async () => {
       try {
         await setTodos(todosArray);
+
         toast.success("Todos successfully saved", { position: "bottom-right" });
       } catch (e: any) {
         console.log(e);

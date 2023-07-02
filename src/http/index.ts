@@ -8,6 +8,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
   config.headers.setAuthorization(`Bearer ${localStorage.getItem("token")}`);
+
   return config;
 });
 
@@ -17,21 +18,26 @@ $api.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+
     if (
       error.response.status == 401 &&
       error.config &&
       !error.config._isRetry
     ) {
       originalRequest._isRetry = true;
+
       try {
         const response = await axios.get<AuthResponse>(
           `${process.env.REACT_APP_API_BASE_URL}/refresh`,
           { withCredentials: true }
         );
+
         localStorage.setItem("token", response.data.token);
+
         return $api.request(originalRequest);
       } catch (error) {
         console.log(error);
+
         window.location.replace("/");
       }
     }

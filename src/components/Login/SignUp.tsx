@@ -1,77 +1,50 @@
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registration } from "../../services/AuthService";
-import { toast } from "react-toastify";
-import { regex } from "../../utils/authValidationUtils/regexConfig";
 import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
+import validationHandler from "../../utils/authValidationUtils/validationHandlers";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [usernameDirty, setUsernameDirty] = useState<boolean>(false);
-  const [emailDirty, setEmailDirty] = useState<boolean>(false);
-  const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
-  const [usernameError, setUsernameError] = useState<string>(
-    "Username is required"
-  );
-  const [emailError, setEmailError] = useState<string>("Email is required");
-  const [passwordError, setPasswordError] = useState<string>(
-    "Password is required"
-  );
+  const [usernameError, setUsernameError] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
-  const formValid = emailError || passwordError || usernameError;
+  const formValid =
+    !!emailError ||
+    !!passwordError ||
+    !!usernameError ||
+    !email ||
+    !password ||
+    !username;
 
   const navigate = useNavigate();
 
   const usernameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-    const res = /^[a-zA-Z\-]+$/.exec(e.target.value);
-    const valid = !!res;
-    if (!valid) {
-      setUsernameError("Please enter a valid Username");
-    } else {
-      setUsernameError("");
-    }
+    const val = e.target.value;
+
+    setUsername(val);
+
+    validationHandler("username", val, setUsernameError);
   };
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    // ВЫПОЛНЕНО - ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
-    const res = regex;
+    const val = e.target.value;
 
-    if (!res.test(String(e.target.value).toLowerCase())) {
-      setEmailError("Please enter a valid Email");
-    } else {
-      setEmailError("");
-    }
+    setEmail(val);
+
+    validationHandler("email", val, setEmailError);
   };
 
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-    if (e.target.value.length < 3 || e.target.value.length > 8) {
-      setPasswordError("Please type more whan 3 and less whan 8 symbols");
-      if (!e.target.value) {
-        setPasswordError("Password is required");
-      }
-    } else {
-      setPasswordError("");
-    }
-  };
+    const val = e.target.value;
 
-  const blurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    switch (e.target.name) {
-      case "username":
-        setUsernameDirty(true);
-        break;
-      case "email":
-        setEmailDirty(true);
-        break;
-      case "password":
-        setPasswordDirty(true);
-        break;
-    }
+    setPassword(val);
+
+    validationHandler("password", val, setPasswordError);
   };
 
   const onRegister = async (
@@ -81,9 +54,12 @@ const SignUp = () => {
     password: string
   ) => {
     event.preventDefault();
+
     try {
       const response = await registration(email, username, password);
+
       localStorage.setItem("token", response.data.token);
+
       navigate("/");
     } catch (e: any) {
       handleErrorUtil(e);
@@ -102,13 +78,13 @@ const SignUp = () => {
         onSubmit={(e) => onRegister(e, email, username, password)}
       >
         <h1>Register</h1>
-        {usernameDirty && usernameError && (
+        {usernameError && (
           <div style={{ color: "red", marginTop: 10, marginBottom: 10 }}>
             {usernameError}
           </div>
         )}
         <input
-          onBlur={(e) => blurHandler(e)}
+          onBlur={(e) => usernameHandler(e)}
           type="text"
           name="username"
           placeholder="Username"
@@ -116,13 +92,13 @@ const SignUp = () => {
           onChange={(e) => usernameHandler(e)}
           style={{ marginTop: 10, marginBottom: 10, width: 400 }}
         />
-        {emailDirty && emailError && (
+        {emailError && (
           <div style={{ color: "red", marginTop: 10, marginBottom: 10 }}>
             {emailError}
           </div>
         )}
         <input
-          onBlur={(e) => blurHandler(e)}
+          onBlur={(e) => emailHandler(e)}
           type="text"
           name="email"
           placeholder="Email"
@@ -130,13 +106,13 @@ const SignUp = () => {
           onChange={(e) => emailHandler(e)}
           style={{ marginTop: 10, marginBottom: 10 }}
         />
-        {passwordDirty && passwordError && (
+        {passwordError && (
           <div style={{ color: "red", marginTop: 10, marginBottom: 10 }}>
             {passwordError}
           </div>
         )}
         <input
-          onBlur={(e) => blurHandler(e)}
+          onBlur={(e) => passwordHandler(e)}
           type="password"
           name="password"
           placeholder="password"

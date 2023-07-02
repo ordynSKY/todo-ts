@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
 import { login } from "../../services/AuthService";
-import { toast } from "react-toastify";
-import { regex } from "../../utils/authValidationUtils/regexConfig";
 import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
+import validationHandler from "../../utils/authValidationUtils/validationHandlers";
 
 /*
- 1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
+ ВЫПОЛНЕНО - 1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
     типа "This field is required" и "Not valid email".
     Убери переменные emailDirty, passwordDirty, formValid
     Если хочешь валидировать когда юзер пишет - валидируй на onChange
@@ -20,58 +19,30 @@ import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
     Ты избавишься от переменных, от ненужных условий и получишь гибкую простую систему валидации и отображения ошибок.
     В SignUp те же советы
 
-  2) Валидация одинаковая на регистрации и логине. Вынеси валидацию в util какую-то в src, и просто используй фкнцию
+  ВЫПОЛНЕНО - 2) Валидация одинаковая на регистрации и логине. Вынеси валидацию в util какую-то в src, и просто используй фкнцию
 */
 export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [emailDirty, setEmailDirty] = useState<boolean>(false);
-  const [passwordDirty, setPasswordDirty] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string>("Email is required");
-  const [passwordError, setPasswordError] = useState<string>(
-    "Password is required"
-  );
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
-  const formValid = emailError || passwordError;
+  const formValid = !!emailError || !!passwordError || !email || !password;
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    // ВЫПОЛНЕНО - ! вот этот regex одинаковый на логине и регистрации. Вынеси его в какую-то папку конфигураций в src и польуйся.
-    const res = regex;
+    const val = e.target.value;
 
-    if (!res.test(String(e.target.value).toLowerCase())) {
-      setEmailError("Please enter a valid Email");
-    } else {
-      setEmailError("");
-    }
+    setEmail(val);
+
+    validationHandler("email", val, setEmailError);
   };
 
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+    const val = e.target.value;
 
-    // ! то о чём я писал в HomePage, я сейчас тебе накину ещё 5 условий по валидации пароля и ты тут сделаешь супервложенность if {} else {}
-    if (e.target.value.length < 3 || e.target.value.length > 8) {
-      setPasswordError("Please type more whan 3 and less whan 8 symbols");
+    setPassword(val);
 
-      if (!e.target.value) {
-        setPasswordError("Password is required");
-      }
-    } else {
-      setPasswordError("");
-    }
-  };
-
-  const blurHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // ! не делай setEmailDirty, а валидируй имейл. Зачем этот промежуточный шаг? Сделай функцию, которая примет имейл, отвалидирует и вернёт или текст ошибки, или null, например.
-    // ! или вообще одну функцию, которая будет валидировать всё, просо закинул в неё значение и что валидируем
-    switch (e.target.name) {
-      case "email":
-        setEmailDirty(true);
-        break;
-      case "password":
-        setPasswordDirty(true);
-        break;
-    }
+    validationHandler("password", val, setPasswordError);
   };
 
   //async func
@@ -107,13 +78,13 @@ export default function SignIn() {
         onSubmit={(e) => onLogin(e, email, password)}
       >
         <h1>Login</h1>
-        {emailDirty && emailError && (
+        {emailError && (
           <div style={{ color: "red", marginTop: 10, marginBottom: 10 }}>
             {emailError}
           </div>
         )}
         <input
-          onBlur={(e) => blurHandler(e)}
+          onBlur={(e) => emailHandler(e)}
           type="text"
           name="email"
           placeholder="Email"
@@ -121,13 +92,13 @@ export default function SignIn() {
           onChange={(e) => emailHandler(e)}
           style={{ marginTop: 10, marginBottom: 10, width: 400 }}
         />
-        {passwordDirty && passwordError && (
+        {passwordError && (
           <div style={{ color: "red", marginTop: 10, marginBottom: 10 }}>
             {passwordError}
           </div>
         )}
         <input
-          onBlur={(e) => blurHandler(e)}
+          onBlur={(e) => passwordHandler(e)}
           type="password"
           name="password"
           placeholder="password"
@@ -136,7 +107,7 @@ export default function SignIn() {
           style={{ marginTop: 10, marginBottom: 10 }}
         />
         <button
-          disabled={!!formValid}
+          disabled={formValid}
           style={{ marginTop: 10, marginBottom: 10 }}
         >
           Login

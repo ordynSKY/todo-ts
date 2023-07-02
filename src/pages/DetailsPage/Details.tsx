@@ -25,7 +25,9 @@ const Details = () => {
     const onTodos = async () => {
       try {
         const todoId = Number(id);
+
         const response = await fetchTodos();
+
         setTodo(
           response.data.todos?.filter((todo: ITodo) => todo.id === todoId)[0]
         );
@@ -33,10 +35,9 @@ const Details = () => {
         console.log(e);
       }
     };
+
     onTodos();
   }, [id]);
-
-  console.log(todo?.title);
 
   return (
     <div>
