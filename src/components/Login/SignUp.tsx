@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { registration } from "../../services/AuthService";
 import { toast } from "react-toastify";
 import { regex } from "../../utils/authValidationUtils/regexConfig";
+import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
 
 const SignUp = () => {
   const [username, setUsername] = useState<string>("");
@@ -88,10 +89,7 @@ const SignUp = () => {
       localStorage.setItem("token", response.data.token);
       navigate("/");
     } catch (e: any) {
-      toast.error(`${e.response?.data?.message}`, {
-        position: "bottom-right",
-      });
-      console.log(e.response?.data?.message);
+      handleErrorUtil(e);
     }
   };
 

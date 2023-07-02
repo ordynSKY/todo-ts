@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import TodosList from "../../components/TodoComponents/TodosList";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
+import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
 
 /*
  1) Избавься от этого firstStart флоу. Или сделай кнопку "Save Todos", или пользуйся функцией сохраняшкой, которая будет
@@ -95,7 +96,7 @@ const HomePage = () => {
         const response = await fetchTodos();
         setTodosArray(response.data.todos);
       } catch (e: any) {
-        console.log(e.response?.data?.message);
+        console.log(e);
       }
     };
     onTodos();
@@ -109,7 +110,9 @@ const HomePage = () => {
       try {
         await setTodos(todosArray);
       } catch (e: any) {
-        console.log(e.response?.data?.message);
+        if (e.response?.data?.message === "User not authorized") {
+          navigate("/");
+        }
       }
     };
     onSetTodos();

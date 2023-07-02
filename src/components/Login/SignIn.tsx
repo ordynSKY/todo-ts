@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { login } from "../../services/AuthService";
 import { toast } from "react-toastify";
 import { regex } from "../../utils/authValidationUtils/regexConfig";
+import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
 
 /*
  1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
@@ -94,11 +95,7 @@ export default function SignIn() {
 
       window.location.replace("/dashboard");
     } catch (e: any) {
-      toast.error(`${e.response?.data?.message}`, {
-        position: "bottom-right",
-      });
-
-      console.log(e.response?.data?.message);
+      handleErrorUtil(e);
     }
   };
 
