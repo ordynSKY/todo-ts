@@ -32,6 +32,7 @@ $api.interceptors.response.use(
         return $api.request(originalRequest);
       } catch (error) {
         console.log(error);
+        window.location.replace("/");
       }
     }
     throw error;

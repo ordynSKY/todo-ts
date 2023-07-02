@@ -6,10 +6,9 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import TodosList from "../../components/TodoComponents/TodosList";
 import debounce from "lodash.debounce";
 import { useNavigate } from "react-router-dom";
-import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
 
 /*
- 1) Избавься от этого firstStart флоу. Или сделай кнопку "Save Todos", или пользуйся функцией сохраняшкой, которая будет
+ ВЫПОЛНЕНО - 1) Избавься от этого firstStart флоу. Или сделай кнопку "Save Todos", или пользуйся функцией сохраняшкой, которая будет
      отправлять на мервер тудухи когда надо, а не в useEffect.
      Можешь убрать коллбэки в setTodosArray или пользваться todosArray, но не мутируй напрямую.
 
@@ -102,27 +101,11 @@ const HomePage = () => {
     onTodos();
   }, []);
 
-  useEffect(() => {
-    if (typeof todosArray === null) {
-      return;
-    }
-    const onSetTodos = async () => {
-      try {
-        await setTodos(todosArray);
-      } catch (e: any) {
-        if (e.response?.data?.message === "User not authorized") {
-          navigate("/");
-        }
-      }
-    };
-    onSetTodos();
-  }, [todosArray]);
-
-  // ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
+  //ВЫПОЛНЕНО - ! вместо всего этого useEffect и переменной searchResult нужно сделать один или два useMemo (как больше нравится)
 
   const searchResult = useMemo(() => {
     return todosArray?.filter(({ title, completed }) => {
-      // ! ебац, я не понимать ничего. Это точно надо переписать на что-то адекватное
+      //ВЫПОЛНЕНО - ! ебац, я не понимать ничего. Это точно надо переписать на что-то адекватное
       const searchTolowerCase = searchTodo.toLowerCase();
       const isCompleted =
         completedTodo === "all"
@@ -131,7 +114,7 @@ const HomePage = () => {
           ? completed === true
           : completed === false;
 
-      // ! тут ты на каждой итерации делаешь searchTodo.toLowerCase(), но searchTodo на всех итерациях одинаковое
+      // ВЫПОЛНЕНО - ! тут ты на каждой итерации делаешь searchTodo.toLowerCase(), но searchTodo на всех итерациях одинаковое
       const isSearchedText = searchTodo
         ? title.toLowerCase().includes(searchTolowerCase)
         : true;
@@ -139,6 +122,18 @@ const HomePage = () => {
       return isCompleted && isSearchedText;
     });
   }, [completedTodo, searchTodo, todosArray]);
+
+  const saveTodos = () => {
+    if (typeof todosArray === null) {
+      return;
+    }
+    const onSetTodos = async () => {
+      try {
+        await setTodos(todosArray);
+      } catch (e: any) {}
+    };
+    onSetTodos();
+  };
 
   return (
     <>
@@ -151,7 +146,7 @@ const HomePage = () => {
         }}
       >
         <TodosList
-          // ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
+          //ВЫПОЛНЕНО - ! эту историю тернарную тоже не надо, тут просто будет лежать значение из useMemo
           todosArray={searchResult || []}
           deleteTodo={deleteTodo}
           toggleTodo={toggleTodo}
@@ -160,6 +155,7 @@ const HomePage = () => {
           <Sidebar
             filterTodos={debouncedSearch}
             onCompletedTodo={onCompletedTodo}
+            saveTodos={saveTodos}
           />
         </div>
       </div>
