@@ -34,8 +34,6 @@ import { toast } from "react-toastify";
 */
 
 const HomePage = () => {
-  //states
-
   const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
     null
   );
@@ -43,12 +41,6 @@ const HomePage = () => {
   const [searchTodo, setSearchTodo] = useState<string>("");
 
   const [completedTodo, setCompletedTodo] = useState<string>("all");
-
-  //getting useNavigate()
-
-  const navigate = useNavigate();
-
-  //functions
 
   const deleteTodo = (id: number) => {
     setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
@@ -90,7 +82,21 @@ const HomePage = () => {
     setCompletedTodo(completed);
   };
 
-  //useEffects
+  const saveTodos = () => {
+    if (typeof todosArray === null) {
+      return;
+    }
+    const onSetTodos = async () => {
+      try {
+        await setTodos(todosArray);
+
+        toast.success("Todos successfully saved", { position: "bottom-right" });
+      } catch (e: any) {
+        console.log(e);
+      }
+    };
+    onSetTodos();
+  };
 
   useEffect(() => {
     const onTodos = async () => {
@@ -127,22 +133,6 @@ const HomePage = () => {
       return isCompleted && isSearchedText;
     });
   }, [completedTodo, searchTodo, todosArray]);
-
-  const saveTodos = () => {
-    if (typeof todosArray === null) {
-      return;
-    }
-    const onSetTodos = async () => {
-      try {
-        await setTodos(todosArray);
-
-        toast.success("Todos successfully saved", { position: "bottom-right" });
-      } catch (e: any) {
-        console.log(e);
-      }
-    };
-    onSetTodos();
-  };
 
   return (
     <>
