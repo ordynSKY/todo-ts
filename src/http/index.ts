@@ -3,7 +3,7 @@ import { AuthResponse } from "../types/response/AuthResponse";
 
 const $api = axios.create({
   withCredentials: true,
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: process.env.REACT_APP_TODO_BASE_URL,
 });
 
 $api.interceptors.request.use((config) => {

@@ -6,7 +6,7 @@ const login = async (
   email: string,
   password: string
 ): Promise<AxiosResponse<AuthResponse>> => {
-  return $api.post<AuthResponse>("/login", { email, password });
+  return $api.post<AuthResponse>("auth/login", { email, password });
 };
 
 const registration = async (
@@ -14,7 +14,7 @@ const registration = async (
   username: string,
   password: string
 ): Promise<AxiosResponse<AuthResponse>> => {
-  return $api.post<AuthResponse>("/registration", {
+  return $api.post<AuthResponse>("auth/registration", {
     email,
     username,
     password,
@@ -22,7 +22,7 @@ const registration = async (
 };
 
 const logout = async (): Promise<void> => {
-  return $api.get("/logout");
+  return $api.get("auth/logout");
 };
 
 export { login, registration, logout };
