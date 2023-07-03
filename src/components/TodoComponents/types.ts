@@ -1,4 +1,4 @@
-import { ITodo } from "../../types/types";
+import { ITodo, TTodoArray } from "../../types/types";
 
 export interface ITodoProps {
   number: number;
@@ -7,7 +7,7 @@ export interface ITodoProps {
   toggleTodo: (id: number) => void;
 }
 export interface ITodosListProps {
-  todosArray: ITodo[] | null | undefined;
+  todosArray: TTodoArray;
   toggleTodo: (id: number) => void;
   deleteTodo: (id: number) => void;
 }

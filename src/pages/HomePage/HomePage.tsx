@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchTodos, setTodos } from "../../services/TodoService";
-import { ITodo } from "../../types/types";
+import { ITodo, TTodoArray } from "../../types/types";
 import HeaderForm from "../../components/Header/HeaderForm";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import TodosList from "../../components/TodoComponents/TodosList";
@@ -34,9 +34,7 @@ import { toast } from "react-toastify";
 */
 
 const HomePage = () => {
-  const [todosArray, setTodosArray] = useState<ITodo[] | null | undefined>(
-    null
-  );
+  const [todosArray, setTodosArray] = useState<TTodoArray>(null);
 
   const [searchTodo, setSearchTodo] = useState<string>("");
 

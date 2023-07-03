@@ -7,14 +7,14 @@ import {
   Draggable,
   DropResult,
 } from "react-beautiful-dnd";
-import { ITodo } from "../../types/types";
+import { ITodo, TTodoArray } from "../../types/types";
 
 const TodosList: FC<ITodosListProps> = ({
   todosArray,
   deleteTodo,
   toggleTodo,
 }) => {
-  const [todos, setTodos] = useState<ITodo[] | null | undefined>(todosArray);
+  const [todos, setTodos] = useState<TTodoArray>(todosArray);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;

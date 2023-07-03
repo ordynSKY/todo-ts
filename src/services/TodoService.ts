@@ -1,15 +1,13 @@
 import { AxiosResponse } from "axios";
 import $api from "../http";
-import { ITodo } from "../types/types";
+import { ITodo, TTodoArray } from "../types/types";
 
 const fetchTodos = (): Promise<AxiosResponse<any>> => {
-  return $api.get<ITodo[] | null | undefined>(
-    `${process.env.REACT_APP_TODO_BASE_URL}/todos`
-  );
+  return $api.get<TTodoArray>(`${process.env.REACT_APP_TODO_BASE_URL}/todos`);
 };
 
 const setTodos = async (
-  todos: ITodo[] | null | undefined
+  todos: TTodoArray
 ): Promise<AxiosResponse<any, any>> => {
   return $api.post<any>(
     `${process.env.REACT_APP_TODO_BASE_URL}/todos`,

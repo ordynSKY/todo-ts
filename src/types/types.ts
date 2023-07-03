@@ -4,3 +4,5 @@ export interface ITodo {
   body: string;
   completed: boolean;
 }
+
+export type TTodoArray = ITodo[] | null | undefined;
