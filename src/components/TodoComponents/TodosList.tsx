@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import Todo from "./Todo";
 import { ITodosListProps } from "./types";
 import {
@@ -7,7 +7,7 @@ import {
   Draggable,
   DropResult,
 } from "react-beautiful-dnd";
-import { ITodo, TTodoArray } from "../../types/types";
+import { ITodo } from "../../types/types";
 
 const TodosList: FC<ITodosListProps> = ({
   todosArray,
@@ -16,14 +16,12 @@ const TodosList: FC<ITodosListProps> = ({
   isFiltered,
   setTodosArray,
 }) => {
-  const [todos, setTodos] = useState<TTodoArray>(todosArray);
-
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination || isFiltered) return;
 
-    const items = Array.from(todos || []);
+    const items = Array.from(todosArray || []);
 
     const [newOrder] = items.splice(source.index, 1);
 
@@ -34,24 +32,10 @@ const TodosList: FC<ITodosListProps> = ({
       position: todo.position,
     }));
 
-    setTodos(dragArray);
+    setTodosArray(dragArray);
 
     setTodosArray(dragArray);
   };
-
-  // const filterArray = (todos: any) => {
-  //   let arr;
-  //   for (let i = 0; i < todos?.length; i++) {
-  //     arr = todos[i].position + 1;
-  //     console.log(arr);
-  //   }
-  // };
-
-  // filterArray(todosArray);
-
-  useEffect(() => {
-    setTodos(todosArray);
-  }, [todosArray]);
 
   return (
     <div style={{ width: 800, position: "absolute", left: 100, top: 120 }}>
@@ -64,7 +48,7 @@ const TodosList: FC<ITodosListProps> = ({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {todos?.map((onetodo, index) => (
+              {todosArray?.map((onetodo, index) => (
                 <Draggable
                   key={onetodo.id}
                   draggableId={onetodo.id.toString()}

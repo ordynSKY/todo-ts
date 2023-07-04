@@ -1,3 +1,5 @@
+import { handleErrorUtil } from "../handleErrorUtil/handleErrorUtil";
+
 const getItem = (key: string) => {
   if (!localStorage) {
     throw new Error("LocalStorage is not available.");
@@ -8,6 +10,7 @@ const getItem = (key: string) => {
     try {
       return item;
     } catch (error) {
+      handleErrorUtil(error);
       console.error("Error parsing localStorage item:", error);
     }
   }
@@ -22,6 +25,7 @@ const setItem = (key: string, value: string) => {
   try {
     localStorage.setItem(key, value);
   } catch (error) {
+    handleErrorUtil(error);
     console.error("Error serializing localStorage item:", error);
   }
 };

@@ -1,12 +1,7 @@
 import "./style.css";
 import "react-toastify/dist/ReactToastify.css";
 import HomePage from "./pages/HomePage/HomePage";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./components/Login/SignIn";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
@@ -32,7 +27,6 @@ const App = () => {
               <Route element={<HomePage />} path="/dashboard" />
             </Route>
             <Route element={<ProtectedRoute />}>
-              {/* <Route element={<Details />} path="/details" /> */}
               <Route element={<Details />} path="/details/:id" />
             </Route>
           </Routes>

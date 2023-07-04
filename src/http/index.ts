@@ -1,5 +1,6 @@
 import axios from "axios";
 import { AuthResponse } from "../types/response/AuthResponse";
+import { handleErrorUtil } from "../utils/handleErrorUtil/handleErrorUtil";
 
 const $api = axios.create({
   withCredentials: true,
@@ -20,7 +21,7 @@ $api.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      error.response.status == 401 &&
+      error.response.status === 401 &&
       error.config &&
       !error.config._isRetry
     ) {
@@ -36,6 +37,7 @@ $api.interceptors.response.use(
 
         return $api.request(originalRequest);
       } catch (error) {
+        handleErrorUtil(error);
         console.log(error);
 
         window.location.replace("/");

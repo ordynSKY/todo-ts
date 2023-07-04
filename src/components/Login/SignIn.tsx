@@ -5,22 +5,6 @@ import { login } from "../../services/AuthService";
 import { handleErrorUtil } from "../../utils/handleErrorUtil/handleErrorUtil";
 import validationHandler from "../../utils/authValidationUtils/validationHandlers";
 
-/*
- ВЫПОЛНЕНО - 1) сделай адекватные ошибки, валидации. ЧТобы было понятно что не так.
-    типа "This field is required" и "Not valid email".
-    Убери переменные emailDirty, passwordDirty, formValid
-    Если хочешь валидировать когда юзер пишет - валидируй на onChange
-    Если хочешь валидировать когда юзер убрал фокус из инпута - валидируй на onBlur
-    Если хочешь при сабмите - валидируй на onSubmit.
-    Для этого не нужны emailDirty, passwordDirty
-    formValid стейт не нужен, потому что у тебя formValid === false, когда в каком-то из полей есть ошибка.
-    Пусть ошибки сначала будут пустыми строками, если emailError === пустая строка, то ошибки нет, если там есть текст, то ошибка есть.
-    formValid = emailError || passwordError получится.
-    Ты избавишься от переменных, от ненужных условий и получишь гибкую простую систему валидации и отображения ошибок.
-    В SignUp те же советы
-
-  ВЫПОЛНЕНО - 2) Валидация одинаковая на регистрации и логине. Вынеси валидацию в util какую-то в src, и просто используй фкнцию
-*/
 export default function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -45,14 +29,11 @@ export default function SignIn() {
     validationHandler("password", val, setPasswordError);
   };
 
-  //async func
   const onLogin = async (
     event: React.FormEvent<HTMLFormElement>,
     email: string,
     password: string
   ) => {
-    // ! ставь переносы строк логические, чтобы не было сплошняка. Сложно читать будет большие функции.
-
     event.preventDefault();
 
     try {
