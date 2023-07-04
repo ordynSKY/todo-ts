@@ -10,4 +10,6 @@ export interface ITodosListProps {
   todosArray: TTodoArray;
   toggleTodo: (id: number) => void;
   deleteTodo: (id: number) => void;
+  setTodosArray: (value: TTodoArray) => void;
+  isFiltered: boolean;
 }

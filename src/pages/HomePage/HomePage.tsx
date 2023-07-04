@@ -40,6 +40,10 @@ const HomePage = () => {
 
   const [completedTodo, setCompletedTodo] = useState<string>("all");
 
+  const isFiltered = !!searchTodo && completedTodo !== "all";
+
+  // console.log("step1", isFiltered);
+
   const deleteTodo = (id: number) => {
     setTodosArray((todos) => todos?.filter((el) => el.id !== id) || null);
   };
@@ -134,7 +138,7 @@ const HomePage = () => {
 
   return (
     <>
-      <HeaderForm oneNewTodo={oneNewTodo} />
+      <HeaderForm oneNewTodo={oneNewTodo} todosLength={todosArray?.length} />
       <div
         style={{
           display: "flex",
@@ -147,6 +151,8 @@ const HomePage = () => {
           todosArray={searchResult || []}
           deleteTodo={deleteTodo}
           toggleTodo={toggleTodo}
+          isFiltered={isFiltered}
+          setTodosArray={setTodosArray}
         />
         <div style={{ position: "absolute", right: 60, top: 50 }}>
           <Sidebar

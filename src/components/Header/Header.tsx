@@ -6,13 +6,11 @@ import styles from "./Header.module.css";
 const Header = () => {
   const navigate = useNavigate();
   const onLogout = async () => {
-    try {
-      await logout();
-      localStorage.removeItem("token");
-      navigate("/");
-    } catch (e: any) {
-      console.log(e.response?.data?.message);
-    }
+    await logout();
+
+    localStorage.removeItem("token");
+
+    navigate("/");
   };
   return (
     <div className={styles.navbar}>

@@ -13,13 +13,15 @@ const TodosList: FC<ITodosListProps> = ({
   todosArray,
   deleteTodo,
   toggleTodo,
+  isFiltered,
+  setTodosArray,
 }) => {
   const [todos, setTodos] = useState<TTodoArray>(todosArray);
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
 
-    if (!destination) return;
+    if (!destination || isFiltered) return;
 
     const items = Array.from(todos || []);
 
@@ -27,8 +29,25 @@ const TodosList: FC<ITodosListProps> = ({
 
     items.splice(destination.index, 0, newOrder);
 
-    setTodos(items);
+    const dragArray = items?.map((todo: ITodo) => ({
+      ...todo,
+      position: todo.position,
+    }));
+
+    setTodos(dragArray);
+
+    setTodosArray(dragArray);
   };
+
+  // const filterArray = (todos: any) => {
+  //   let arr;
+  //   for (let i = 0; i < todos?.length; i++) {
+  //     arr = todos[i].position + 1;
+  //     console.log(arr);
+  //   }
+  // };
+
+  // filterArray(todosArray);
 
   useEffect(() => {
     setTodos(todosArray);

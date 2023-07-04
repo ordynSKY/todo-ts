@@ -23,17 +23,13 @@ const Details = () => {
 
   useEffect(() => {
     const onTodos = async () => {
-      try {
-        const todoId = Number(id);
+      const todoId = Number(id);
 
-        const response = await fetchTodos();
+      const response = await fetchTodos();
 
-        setTodo(
-          response.data.todos?.filter((todo: ITodo) => todo.id === todoId)[0]
-        );
-      } catch (e: any) {
-        console.log(e);
-      }
+      setTodo(
+        response.data.todos?.filter((todo: ITodo) => todo.id === todoId)[0]
+      );
     };
 
     onTodos();

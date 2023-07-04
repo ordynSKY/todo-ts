@@ -3,6 +3,7 @@ import { ITodo } from "../../types/types";
 
 export interface IHeader {
   oneNewTodo: (e: ITodo) => void;
+  todosLength: number | undefined;
 }
 export interface IHeaderButtonProps {
   isDisabled?: boolean;

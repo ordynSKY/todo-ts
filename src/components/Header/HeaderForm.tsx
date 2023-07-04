@@ -3,11 +3,11 @@ import TodoForm from "../TodoComponents/TodoForm";
 import Header from "./Header";
 import { IHeader } from "./types";
 
-const HeaderForm: FC<IHeader> = ({ oneNewTodo }) => {
+const HeaderForm: FC<IHeader> = ({ oneNewTodo, todosLength }) => {
   return (
     <>
       <Header />
-      <TodoForm oneNewTodo={oneNewTodo} />
+      <TodoForm oneNewTodo={oneNewTodo} todosLength={todosLength} />
     </>
   );
 };

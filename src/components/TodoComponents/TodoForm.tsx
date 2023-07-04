@@ -5,7 +5,7 @@ import styles from "../Header/Header.module.css";
 import { IHeader } from "../Header/types";
 import { ITodo } from "../../types/types";
 
-const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
+const TodoForm: FC<IHeader> = ({ oneNewTodo, todosLength }) => {
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
 
@@ -19,6 +19,7 @@ const TodoForm: FC<IHeader> = ({ oneNewTodo }) => {
       title,
       body,
       completed: false,
+      position: todosLength,
     };
 
     oneNewTodo(newTodo);
